@@ -1,0 +1,307 @@
+.App {
+  position: absolute;
+  display: flex;
+  justify-content: center;  
+  left: auto;
+  right: auto;
+  text-align: center;
+  /* background-image: url("./assets/starsbackground.png"); */
+  background: url("./assets/starsForeground1.png") repeat-x;
+  overflow-y: hidden; 
+  max-width: fit-content;
+}
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+    
+  }
+  to {
+    transform: rotate(359deg);
+
+  }
+} 
+
+.shrinker{
+  animation: shipfliescloser 3s infinite;
+  user-select: none;
+
+}
+
+
+.flicker{
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+
+  -webkit-animation: flickerAnimationShip 3s infinite;
+  -moz-animation: flickerAnimationShip 3s infinite;
+  -o-animation: flickerAnimationShip 3s infinite;
+   animation: flickerAnimationShip 3s infinite;
+}
+
+
+.forcefield{
+  /* background-color: rgb(241, 241, 241); */
+  border-radius: 50%;
+  background: radial-gradient(#ffffff, rgba(255, 255, 255, 0.178), #ffffffce);
+  pointer-events: none;
+  user-select: none;
+  /* position: absolute; */
+  display: flex;
+  justify-content: center;
+}
+
+
+
+@keyframes flickerAnimationShip {
+  0%   { opacity:0.25; }
+  50%  { opacity:0.7; }
+  100% { opacity:0.25; }
+}
+@-o-keyframes flickerAnimationShip{
+  0%   { opacity:0.25; }
+  50%  { opacity:0.7; }
+  100% { opacity:0.25; }
+}
+@-moz-keyframes flickerAnimationShip{
+  0%   { opacity:0.25; }
+  50%  { opacity:0.7; }
+  100% { opacity:0.25; }
+}
+@-webkit-keyframes flickerAnimationShip{
+  0%   { opacity:0.25; }
+  50%  { opacity:0.7; }
+  100% { opacity:0.25; }
+}
+
+
+@keyframes shipfliescloser {
+  50% {height: 90%;}
+}
+
+
+.wrapper{
+  display: flex;
+  height: 100vh;
+  overflow-y: hidden;
+  overflow-x: auto;
+  perspective: 50px;
+  display: flex;
+  justify-content: center; 
+}
+
+.starsfg, .earth{
+  /* position: absolute; */
+  background-position-y: bottom;
+  display: flex; 
+  justify-content: center;
+  bottom: 0;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+  /* Make image unclickable */
+  pointer-events: none;
+  touch-action: none;
+  
+  
+
+}
+@keyframes flickerAnimationfg {
+  0%   { opacity:0.2; }
+  50%  { opacity:0.5; }
+  100% { opacity:0.2; }
+}
+@-o-keyframes flickerAnimationfg{
+  0%   { opacity:0.2; }
+  50%  { opacity:0.5; }
+  100% { opacity:0.2; }
+}
+@-moz-keyframes flickerAnimationfg{
+  0%   { opacity:0.2; }
+  50%  { opacity:0.5; }
+  100% { opacity:0.2; }
+}
+@-webkit-keyframes flickerAnimationfg{
+  0%   { opacity:0.2; }
+  50%  { opacity:0.5; }
+  100% { opacity:0.2; }
+}
+.starsfg{
+  transform: translateZ(-15px) scale(1.5);
+  z-index: -2;
+  width: 170%;
+  pointer-events: none; 
+
+  -webkit-animation: flickerAnimationfg 11s infinite;
+  -moz-animation: flickerAnimationfg 11s infinite;
+  -o-animation: flickerAnimationfg 11s infinite;
+   animation: flickerAnimationfg 11s infinite;
+}
+
+.earth{
+  transform: translateZ(-5px) scale(1.5);
+  z-index: -1;
+  width: 120%;
+  position: absolute;
+  margin-left: 70%;
+  pointer-events: none; 
+}
+
+.header{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+  z-index: -1;
+}
+@keyframes flickerAnimation {
+  0%   { opacity:0.05; }
+  50%  { opacity:0.17; }
+  100% { opacity:0.05; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:0.05; }
+  50%  { opacity:0.17; }
+  100% { opacity:0.05; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:0.05; }
+  50%  { opacity:0.17; }
+  100% { opacity:0.05; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:0.05; }
+  50%  { opacity:0.17; }
+  100% { opacity:0.05; }
+}
+
+
+.bgstatic{
+  pointer-events: none;
+  transform: translateZ(-5px) scale(1);
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  margin: 0;
+  opacity: 60%;
+  background: url('./assets/starsbackground.png') center center;
+  touch-action: none;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-image: url("./assets/starsbackground.png");
+  background-repeat: repeat;
+  z-index: -5;
+
+  -webkit-animation: flickerAnimation 7s infinite;
+  -moz-animation: flickerAnimation 7s infinite;
+  -o-animation: flickerAnimation 7s infinite;
+   animation: flickerAnimation 7s infinite;
+  }
+  @keyframes fadeInFromNone { 
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 0.9;
+    }
+  }
+  .listener{
+    color: yellow;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;    
+    display: flex;
+    width: inherit;
+    /* transform: translateZ(-1px) scale(1.05); */
+    -webkit-animation: fadeInFromNone 1.5s;
+    -moz-animation: fadeInFromNone 1.5s;
+    -o-animation: fadeInFromNone 1.5s;
+    animation: fadeInFromNone 1.5s;
+    overscroll-behavior: 'none'
+  }
+.letters{
+  opacity: 85%;
+  filter: invert(58%) sepia(61%) saturate(3754%) hue-rotate(137deg) brightness(99%) contrast(91%);
+}
+
+.shipmetal{
+  height: 8%;
+  width: 100%;
+  max-width: 400px;
+  bottom: 0;
+  background: #333;
+  position: fixed;
+  box-sizing: content-box;
+  z-index: 1;
+  pointer-events: none;
+
+  display: flex;
+  justify-content: space-around;
+  /* border-width: 8px;
+  border-style: solid;
+  border-image: linear-gradient(to right bottom, #260B3C, #a053df);
+  border-image-slice: 1; */
+}
+
+.letterbutton{
+  color: #222;
+  display: flex;
+  justify-content: center;
+  height: 90%;
+  border: #151515;
+  margin: 0.75%;
+  touch-action: none;
+  border-radius: 5px;
+  /* filter: drop-shadow(0 0 0.55rem rgb(100, 100, 100)); */
+  box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+  width: 10%;
+  bottom: 0;
+
+}
+.phaserGlow{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  left: 5%;
+  bottom: 5%;
+  height: 38%;
+  opacity: 11%;
+
+
+}
+
+@keyframes phaserFade { 
+  0% {opacity: 0;}
+
+  25% {opacity: 0.4;}
+
+  50%{opacity: 0.15;}
+
+  75% {opacity: 0.35;}
+
+  100%{opacity: 0;}
+
+}
+
+.bubbles{
+    /* transform: translateZ(-1px) scale(1.05); */
+    -webkit-animation: phaserFade 0.5s;
+    -moz-animation: phaserFade 0.5s;
+    -o-animation: phaserFade 0.5s;
+    animation: phaserFade 0.5s;
+    height: 60%;
+    overscroll-behavior: 'none';
+    position: fixed;
+    z-index: 3;
+}
