@@ -50,7 +50,7 @@ function LetterButtonSquare(props){
             <img src={props.image} className="abcdefg" 
                     style={{
                     filter: `invert(${props.cssFilter.invert}%) sepia(${props.cssFilter.sepia}%) saturate(${props.cssFilter.saturate}%) hue-rotate(${props.cssFilter.hueRotate}deg) brightness(${props.cssFilter.brightness}%) contrast(${props.cssFilter.contrast}%)`,
-                    opacity: '55%',
+                    opacity: '75%',
                     height: '90%',
                     touchAction: 'none',
                     pointerEvents: 'none',

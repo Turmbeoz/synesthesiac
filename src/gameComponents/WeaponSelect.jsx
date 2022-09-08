@@ -12,16 +12,12 @@ import { useState, useContext } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext'
 
 function WeaponSelector(props){
-    const { bubbleCssPos, notes } = props;
-
-    // const key={ a: notes.a, b: notes.b, c: notes.c, d: notes.d, e: notes.e, f: notes.f, g: notes.g }
-    // Replace with props (key set by user) when going back
+    const { bubbleCssPos, notes, aliensArray } = props;
     const buttonWidth = window.screen.width / 7;
     // Save note and state of ship being listened to.
-    // const buttonMidPointForBubble = (buttonWidth / 2).toFixed(2)
     const buttonObj = { 0: buttonWidth, 1: buttonWidth*2, 2: buttonWidth*3, 3: buttonWidth*4, 4: buttonWidth*5, 5: buttonWidth*6, 6:buttonWidth*7 };
     const screenHeight = window.screen.height;
-
+    const [onScreenVillains, setOnScreenVillains] = useState({active: [aliensArray[0]], wholeList: aliensArray})
     const [weaponArray, setWeaponArray] = useState({arr: []});
     const [colorState, setColorState] = useState({
         a: {invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90},
@@ -46,13 +42,12 @@ function WeaponSelector(props){
         if (e.touches.length > 1){
             e.preventDefault()
             // IS the new touch in the A (or watever letter) button? Do something!!
-
         }
-        console.log("LOCKED ON");
-        console.log(weaponShipObj)
+        console.log("WEAPON LEVEL")
+        console.log(weaponShipObj);
         // If weapon is pressed, and note is correct - set the letter's state and then run func
-        for (let i=0; i<e.touches.length; i++){
-            const touch = e.touches[i];
+        for (let i=0; i<e.changedTouches.length; i++){
+            const touch = e.changedTouches[i];
             console.log(touch);
             const height = (touch.clientY / screenHeight).toFixed(2);
             // 92% is the bottom margin for the weapon select. We changed it cause on actual touch it needs to be 75%
@@ -121,29 +116,44 @@ function WeaponSelector(props){
                 },500)
             }else{
                 console.log("ELSE STATEMENT");
-                console.log(touch);
-                console.log(weaponShipObj)
+
             }
         }
 
     }
-    console.log("WEAPON LEVEL")
-    console.log(weaponShipObj);
-    const villainsShips = [<Alienship left={25} key={'0+'} keyId={'0'} note={'A'}  weaponState={colorState.a} ></Alienship>,<Alienship left={75} weaponState={colorState.c} key={'1t'} note={'C'} ></Alienship>]
+    // Filter the array of aliens on screen.
+    // const villainsShips = [aliensArray[0], aliensArray[1]];
+    const deadList = [...weaponShipObj.deadOrDestroyedIDs]
+    function alienArrFilter(alien){
+        console.log(alien.key[0])
+        for (let i=0; i<deadList.length; i++){
+            if (alien.key[0] === deadList[i]){
+                console.log("WE HURRRR")
+                return false;
+            }
+        }
+        return true
+    }
+    onScreenVillains.active = onScreenVillains.active.filter(alienArrFilter);
+    if (onScreenVillains.active.length < 1){
+        onScreenVillains.active.push(onScreenVillains.wholeList.pop())
+    }
+    console.log("CHECKING IDs for aliens")
+    console.log(weaponShipObj.deadOrDestroyedIDs)
     return (
         <>
         
-            {villainsShips}
+            {onScreenVillains.active}
             {weaponArray.arr}
 
         <div className="shipmetal" >
-            <LetterButtonSquare delay={2500} active={true} note={'A'} weaponState={weaponShipObj} image={A} cssFilter={colorState.a} />
-            <LetterButtonSquare active={false} note={'B'} weaponState={weaponShipObj.b} image={B} cssFilter={colorState.b}  />
-            <LetterButtonSquare active={true} note={'C'} weaponState={weaponShipObj.c} image={C} cssFilter={colorState.c}  />
-            <LetterButtonSquare active={false} note={'D'} weaponState={weaponShipObj.d}  image={D} cssFilter={colorState.d}  />
-            <LetterButtonSquare active={true} note={'E'} weaponState={weaponShipObj.e}  image={E} cssFilter={colorState.e}  />
-            <LetterButtonSquare active={false} note={'F'} weaponState={weaponShipObj.f}  image={F} cssFilter={colorState.f}  />
-            <LetterButtonSquare active={false} note={'G'} weaponState={weaponShipObj.g}  image={G} cssFilter={colorState.g}  />
+            <LetterButtonSquare delay={2500} active={true} note={'A'} image={A} cssFilter={colorState.a} />
+            <LetterButtonSquare active={false} note={'B'} image={B} cssFilter={colorState.b}  />
+            <LetterButtonSquare active={true} note={'C'} image={C} cssFilter={colorState.c}  />
+            <LetterButtonSquare active={false} note={'D'}  image={D} cssFilter={colorState.d}  />
+            <LetterButtonSquare active={true} note={'E'} image={E} cssFilter={colorState.e}  />
+            <LetterButtonSquare active={false} note={'F'} image={F} cssFilter={colorState.f}  />
+            <LetterButtonSquare active={false} note={'G'}  image={G} cssFilter={colorState.g}  />
         </div>
         
         </>

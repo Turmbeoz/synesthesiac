@@ -12,7 +12,6 @@ import { WeaponAndShipContext } from '../gameInfo/gameContext'
 // Add a state prop drill for a listeningFlare Component 
 function Alienship(props){
     let flare;
-    const cssFiltState = props.weaponState;
     // Pass the left key in when the ship is created in the parent component
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext)
     const [shipState, setShipState] = useState({
@@ -33,7 +32,8 @@ function Alienship(props){
         listeningHold: false,
         keyId: props.keyId,
         note: props.note,
-        cssFilter: `invert(${cssFiltState.invert}%) sepia(${cssFiltState.sepia}%) saturate(${cssFiltState.saturate}%) hue-rotate(${cssFiltState.hueRotate}) brightness(${cssFiltState.brightness}%) contrast(${cssFiltState.contrast}%)`,
+        cssFilterGRAY: `invert(${props.gray.invert}%) sepia(${props.gray.sepia}%) saturate(${props.gray.saturate}%) hue-rotate(${props.gray.hueRotate}) brightness(${props.gray.brightness}%) contrast(${props.gray.contrast}%)`,
+        cssFilterCOLOR: `invert(${props.color.invert}%) sepia(${props.color.sepia}%) saturate(${props.color.saturate}%) hue-rotate(${props.color.hueRotate}) brightness(${props.color.brightness}%) contrast(${props.color.contrast}%)`,
     })
     function handleTouch(e){
         // console.log(e);
@@ -80,14 +80,20 @@ function Alienship(props){
         // if (height > 0.85){
         //     return
         // }
+        const idThing = e.target.id[0];
+        if (idThing != undefined){
+            weaponShipObj.deadOrDestroyedIDs.add(e.target.id[0])
+            setWeaponShipObj({...weaponShipObj });
+        }
         if (e.touches.length > 1){
             e.preventDefault();
             const newFilt = { invert: 14, sepia: 83, saturate: 7052, hueRotate: 359, brightness: 92, contrast: 118 }
             // IS the new touch in the A button? Do something!!
-            const touches = [...e.touches];
+            const touches = [...e.changedTouches];
+            // const touches = [...e.changedTouches];
             for (let i = 0; i < touches.length; i++){
                 // Check if any touches are in the boundary
-                const height = (e.touches[i].clientY / window.screen.height).toFixed(2);
+                const height = (touches[i].clientY / window.screen.height).toFixed(2);
                 const leftVal = touches[i].target.style.left.replace("%", "");
                 const topVal = touches[i].target.style.top.replace("%", "");
                 const leftDiff = Math.abs(leftVal - shipState.left);
@@ -166,6 +172,7 @@ function Alienship(props){
         // setShipState({...shipState, touched: false, leftOrRight: Math.random() < 0.5 ? -1 : 1})
     }
     function moveShip(){
+
         // Change y position and create jump effect
         if (!shipState.idle){
             if (shipState.touched){
@@ -232,10 +239,14 @@ function Alienship(props){
     if (shipState.listeningHold && shipState.idle){
         flare = (<HorizontalFlare left={shipState.left - 80} height={400}  top={shipState.top - 28}/>)
     }
+    if (shipState.top > 95){
+        weaponShipObj.deadOrDestroyedIDs.add(shipState.keyId[0])
+        setWeaponShipObj({...weaponShipObj });
+        // return;
+    }
     return (
         
         <div className='flares'>
-            {shipState.multiTouchComp}
         {flare}  
         <div className='shrinker' id={shipState.keyId + '*'+'A'} style={{
             position: 'absolute',
