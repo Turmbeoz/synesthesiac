@@ -80,7 +80,10 @@ function Alienship(props){
         // if (height > 0.85){
         //     return
         // }
-        const idThing = e.target.id[0];
+
+        // This destroys the ship!!! CHANGE LOGIC HERE TO KILL ALIens!!
+        console.log(e.target.id.split('alienKeyID*')[0]);
+        const idThing = e.target.id.split('alienKeyID*')[0] || undefined;
         if (idThing != undefined){
             weaponShipObj.deadOrDestroyedIDs.add(e.target.id[0])
             setWeaponShipObj({...weaponShipObj });
@@ -240,8 +243,9 @@ function Alienship(props){
         flare = (<HorizontalFlare left={shipState.left - 80} height={400}  top={shipState.top - 28}/>)
     }
     if (shipState.top > 95){
-        weaponShipObj.deadOrDestroyedIDs.add(shipState.keyId[0])
-        setWeaponShipObj({...weaponShipObj });
+        const tempID = shipState.keyId.split("alienKeyID");
+        weaponShipObj.deadOrDestroyedIDs.add(tempID[0])
+        // setWeaponShipObj({...weaponShipObj });
         // return;
     }
     return (

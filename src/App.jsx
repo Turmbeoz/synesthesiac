@@ -30,9 +30,7 @@ function App() {
     villainsShipsArr.push(newGuy)
   }
   const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set()});
-  for (let i=0; i<20; i++){
-    villainsShipsArr.push()
-  }
+
   return (
     <div className="wrapper" id='canvas'>
       <WeaponAndShipContext.Provider value={{weaponShipObj, setWeaponShipObj}}>

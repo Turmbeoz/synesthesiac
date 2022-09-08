@@ -125,10 +125,9 @@ function WeaponSelector(props){
     // const villainsShips = [aliensArray[0], aliensArray[1]];
     const deadList = [...weaponShipObj.deadOrDestroyedIDs]
     function alienArrFilter(alien){
-        console.log(alien.key[0])
+        const daKey = alien.key.split("alienKey")
         for (let i=0; i<deadList.length; i++){
-            if (alien.key[0] === deadList[i]){
-                console.log("WE HURRRR")
+            if (daKey[0] === deadList[i]){
                 return false;
             }
         }
@@ -139,7 +138,8 @@ function WeaponSelector(props){
         onScreenVillains.active.push(onScreenVillains.wholeList.pop())
     }
     console.log("CHECKING IDs for aliens")
-    console.log(weaponShipObj.deadOrDestroyedIDs)
+    console.log(weaponShipObj.deadOrDestroyedIDs);
+    console.log(onScreenVillains);
     return (
         <>
         

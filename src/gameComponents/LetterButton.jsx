@@ -18,18 +18,7 @@ function LetterButtonSquare(props){
         g: false
     
     })
-    // if (!props.active){
-    //     console.log("Got here, no problem", buttonsState.invert)
-    //     // buttonsState = {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96}
-    //     buttonsState.invert = 18;
-    //     buttonsState.sepia = 6;
-    //     buttonsState.saturate = 23;
-    //     buttonsState.hueRotate = 14;
-    //     buttonsState.brightness = 94;
-    //     buttonsState.contrast = 96;
-    // }
-    // setButtonState({...buttonsState, invert: buttonsState.invert, sepia: buttonsState.sepia, saturate: buttonsState.saturate, hueRotate: buttonsState.hueRotate, brightness: buttonsState.brightness, contrast: buttonsState.contrast})
-    
+
     
     // 8/14/2022 - alter event listeners so we are getting the right actions
     function trigger() {
