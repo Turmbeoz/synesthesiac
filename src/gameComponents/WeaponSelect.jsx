@@ -1,5 +1,4 @@
 import LetterButtonSquare from './LetterButton';
-import Alienship from './Alienship';
 import A from '../assets/A.png';
 import B from '../assets/B.png';
 import C from '../assets/C.png';
@@ -8,17 +7,21 @@ import E from '../assets/E.png';
 import F from '../assets/F.png';
 import G from '../assets/G.png';
 import Bubbler from './Bubbler';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext'
 
 function WeaponSelector(props){
     const { bubbleCssPos, notes, aliensArray } = props;
     const buttonWidth = window.screen.width / 7;
+    // useContext hook for communication between ship and cannon
+    const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
     // Save note and state of ship being listened to.
     const buttonObj = { 0: buttonWidth, 1: buttonWidth*2, 2: buttonWidth*3, 3: buttonWidth*4, 4: buttonWidth*5, 5: buttonWidth*6, 6:buttonWidth*7 };
     const screenHeight = window.screen.height;
-    const [onScreenVillains, setOnScreenVillains] = useState({active: [aliensArray[0]], wholeList: aliensArray})
-    const [weaponArray, setWeaponArray] = useState({arr: []});
+    console.log("Key ID in weapon select")
+    console.log(aliensArray[0].props.keyId);
+    const [onScreenBaddies, setOnScreenBaddies] = useState({ collection: aliensArray, current: [] });
+    const [weaponArray, setWeaponArray] = useState({ arr: [] });
     const [colorState, setColorState] = useState({
         a: {invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90},
         b: {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96},
@@ -28,23 +31,23 @@ function WeaponSelector(props){
         f: {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96},
         g: {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96}
     });
-    // useContext hook for communication between ship and cannon
-    const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
+
     function weaponBoard() {
         const el = document.getElementById("canvas");
         el.addEventListener("touchstart", weaponTap, false);
         // el.addEventListener("touchend", handleTouchEnd, false);
         // el.addEventListener("touchcancel", handleTouch, false);
-        // el.addEventListener("touchmove", handleTouchMove, false);
+        // el.addEventListener("touchmove", weaponTouchMove, false);
       }
+
+    console.log(aliensArray.length);
     document.addEventListener("DOMContentLoaded", weaponBoard);
     function weaponTap(e){
         if (e.touches.length > 1){
-            e.preventDefault()
+            e.preventDefault();
             // IS the new touch in the A (or watever letter) button? Do something!!
         }
-        console.log("WEAPON LEVEL")
-        console.log(weaponShipObj);
+
         // If weapon is pressed, and note is correct - set the letter's state and then run func
         for (let i=0; i<e.changedTouches.length; i++){
             const touch = e.changedTouches[i];
@@ -112,7 +115,7 @@ function WeaponSelector(props){
                 setWeaponArray({arr: aPhase});
 
                 setTimeout(()=>{
-                    setWeaponArray({arr:[]});
+                    setWeaponArray({ arr:[] });
                 },500)
             }else{
                 console.log("ELSE STATEMENT");
@@ -122,28 +125,32 @@ function WeaponSelector(props){
 
     }
     // Filter the array of aliens on screen.
-    // const villainsShips = [aliensArray[0], aliensArray[1]];
-    const deadList = [...weaponShipObj.deadOrDestroyedIDs]
+
+    // const deadList = [...weaponShipObj.deadOrDestroyedIDs];
     function alienArrFilter(alien){
-        console.log(alien.key[0])
-        for (let i=0; i<deadList.length; i++){
-            if (alien.key[0] === deadList[i]){
-                console.log("WE HURRRR")
-                return false;
-            }
-        }
-        return true
+        // Remove ships with the keyId of DEAD
+        return alien.props.keyId !== "DEAD"
+
     }
-    onScreenVillains.active = onScreenVillains.active.filter(alienArrFilter);
-    if (onScreenVillains.active.length < 1){
-        onScreenVillains.active.push(onScreenVillains.wholeList.pop())
-    }
-    console.log("CHECKING IDs for aliens")
-    console.log(weaponShipObj.deadOrDestroyedIDs)
+
+    // Send the aliens at timed intervals
+    useEffect(() => {
+        const interval = setInterval(() => {
+          console.log('This will run every second!');
+          if(onScreenBaddies.collection.length > 0){
+            onScreenBaddies.current.push(onScreenBaddies.collection.pop());
+            setOnScreenBaddies({ ...onScreenBaddies })
+          }else{
+            console.log("GAME OVER")
+          }
+
+        }, 1000);
+        return () => clearInterval(interval);
+      }, []);
     return (
         <>
-        
-            {onScreenVillains.active}
+            {onScreenBaddies.current.filter(alienArrFilter)}
+            {/* {onScreenVillains.active} */}
             {weaponArray.arr}
 
         <div className="shipmetal" >

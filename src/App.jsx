@@ -29,6 +29,7 @@ function App() {
     const newGuy = <Alienship left={villainXposition[i]} note={villainKeyNotesArr[i].stringVer} gray={notesCSSandData.defaultGray.cssFilter} color={villainKeyNotesArr[i].cssFilter} key={i + 'alienKey'} keyId={i + 'alienKeyID'} ></Alienship>
     villainsShipsArr.push(newGuy)
   }
+
   const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set()});
   for (let i=0; i<20; i++){
     villainsShipsArr.push()
@@ -36,7 +37,7 @@ function App() {
   return (
     <div className="wrapper" id='canvas'>
       <WeaponAndShipContext.Provider value={{weaponShipObj, setWeaponShipObj}}>
-      <WeaponSelector notes={notesCSSandData} aliensArray={villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
+      <WeaponSelector notes={notesCSSandData} aliensArray={weaponShipObj.villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
       </WeaponAndShipContext.Provider>
         <div className='header'>
               <img src={earth} className="earth" alt="earth" />

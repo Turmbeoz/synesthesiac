@@ -54,7 +54,6 @@ function Alienship(props){
     }
 
     function handleTouchMove(e){
-        console.log("We are moving the AA");
         // Make sure the X, Y touch coords are within the bounds of the ship / add opacity animation
         
         if (e.touches.length > 1){
@@ -76,15 +75,11 @@ function Alienship(props){
     }
     function handleTouchStartFunc(e){
         // Do the thing with the animater
-        
-        // if (height > 0.85){
-        //     return
-        // }
+
+        // this line below will filter the ship from being rendered, once we get them on a rotation.
+        shipState.keyId = 'DEAD'
+        // Destroy the ship!!
         const idThing = e.target.id[0];
-        if (idThing != undefined){
-            weaponShipObj.deadOrDestroyedIDs.add(e.target.id[0])
-            setWeaponShipObj({...weaponShipObj });
-        }
         if (e.touches.length > 1){
             e.preventDefault();
             const newFilt = { invert: 14, sepia: 83, saturate: 7052, hueRotate: 359, brightness: 92, contrast: 118 }
@@ -107,7 +102,7 @@ function Alienship(props){
                     const tempData = { note: props.note, top: shipState.top, left: shipState.left, keyId: props.keyId };
 
                     // weaponShipObj.buttonPressed[props.note] = true;
-                    setWeaponShipObj({...weaponShipObj, lockedOn: tempData });
+                    // setWeaponShipObj({...weaponShipObj, lockedOn: tempData });
                     setShipState({...shipState, spinsSeconds: shipState.spinsSeconds, touched: shipState.touched, idle: shipState.idle, cssFilter: newFilt });
                     return;
                 
@@ -127,15 +122,16 @@ function Alienship(props){
                 const tempData = { note: props.note, top: shipState.top, left: shipState.left };
 
                 // weaponShipObj.buttonPressed[props.note] = true;
-                setWeaponShipObj({...weaponShipObj, lockedOn: tempData });
-                setShipState({...shipState, spinsSeconds: shipState.spinsSeconds, touched: shipState.touched, idle: shipState.idle});
-
+                
+                setShipState({ ...shipState, spinsSeconds: shipState.spinsSeconds, touched: shipState.touched, idle: shipState.idle });
+                // setWeaponShipObj({...weaponShipObj, lockedOn: tempData });
         }
 }  
 
     }
 
     function handleTouchEnd(e){
+        console.log(shipState.keyId)
         if (e.touches.length > 1){
             e.preventDefault()
             return
@@ -143,7 +139,7 @@ function Alienship(props){
         shipState.listeningHold = false;
         setShipState({...shipState, listeningHold: shipState.listeningHold});
         //weaponShipObj.lockedOn = null;
-        setWeaponShipObj({...weaponShipObj})
+        // setWeaponShipObj({...weaponShipObj})
     }
     function startup() {
         const el = document.getElementById("canvas");
@@ -172,8 +168,12 @@ function Alienship(props){
         // setShipState({...shipState, touched: false, leftOrRight: Math.random() < 0.5 ? -1 : 1})
     }
     function moveShip(){
-
         // Change y position and create jump effect
+        if (shipState.top > 95){
+            shipState.keyId = "DEAD"
+            setShipState({...shipState});
+            return;
+        }
         if (!shipState.idle){
             if (shipState.touched){
                 shipState.jumpCoeff *= 1.25;
@@ -240,10 +240,13 @@ function Alienship(props){
         flare = (<HorizontalFlare left={shipState.left - 80} height={400}  top={shipState.top - 28}/>)
     }
     if (shipState.top > 95){
-        weaponShipObj.deadOrDestroyedIDs.add(shipState.keyId[0])
-        setWeaponShipObj({...weaponShipObj });
+        // Destroy the ship here - remove from DOM - Did it cause damage?
+        const idArr = shipState.keyId.split('alienKeyID');
+        // weaponShipObj.deadOrDestroyedIDs.add(idArr[0])
+        // setWeaponShipObj({ ...weaponShipObj });
         // return;
     }
+
     return (
         
         <div className='flares'>
