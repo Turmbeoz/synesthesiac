@@ -7,22 +7,24 @@ import E from '../assets/E.png';
 import F from '../assets/F.png';
 import G from '../assets/G.png';
 import Bubbler from './Bubbler';
-import { useState, useContext, useEffect } from 'react';
-import { WeaponAndShipContext } from '../gameInfo/gameContext'
+import { useState, useContext, useEffect, useRef } from 'react';
+import { WeaponAndShipContext } from '../gameInfo/gameContext';
+import useInterval from '../gameInfo/useInterval';
+import Alienship from './Alienship';
 
 function WeaponSelector(props){
     const { bubbleCssPos, notes, aliensArray } = props;
     const buttonWidth = window.screen.width / 7;
     // useContext hook for communication between ship and cannon
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
+    const { newAlienObj } = weaponShipObj;
     // Save note and state of ship being listened to.
     const buttonObj = { 0: buttonWidth, 1: buttonWidth*2, 2: buttonWidth*3, 3: buttonWidth*4, 4: buttonWidth*5, 5: buttonWidth*6, 6:buttonWidth*7 };
     const screenHeight = window.screen.height;
-    console.log("Key ID in weapon select")
-    console.log(aliensArray[0].props.keyId);
     const [onScreenBaddies, setOnScreenBaddies] = useState({ collection: aliensArray, current: [] });
     const [weaponArray, setWeaponArray] = useState({ arr: [] });
     const [colorState, setColorState] = useState({
+
         a: {invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90},
         b: {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96},
         c: {invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90},
@@ -30,29 +32,83 @@ function WeaponSelector(props){
         e: {invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90},
         f: {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96},
         g: {invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96}
-    });
 
-    function weaponBoard() {
+    });
+    const [slice, setSlice] = useState({ left: 0, right: 1 })
+    function runTheInterval(){
+        
+        const difference = slice.right - slice.left;
+        if(slice.right < aliensArray.length){
+            slice.right += 1;
+        }
+        if (slice.left < slice.right && difference > 3 && difference < 5){
+            slice.left += 1;
+        }else if (slice.left < slice.right && slice.right === aliensArray.length-1){
+            slice.left += 1;
+        }
+        setSlice(() => {
+            return { right: slice.right, left: slice.left }
+        })
+    }
+    
+    const interValue = useInterval(runTheInterval, 4000);
+
+    // useEffect(() => {
+        
+    //     const interval = setInterval(() => {
+
+    //         const difference = slice.right - slice.left;
+    //         if(slice.right < aliensArray.length-1){
+    //             slice.right += 1;
+    //         }
+    //         if (slice.left < slice.right && difference > 3 && difference < 5){
+    //             slice.left += 1;
+    //         }else if (slice.left < slice.right && slice.right === aliensArray.length-1){
+    //             slice.left += 1;
+    //         }
+    //         setSlice(() => {
+    //             return { right: slice.right, left: slice.left }
+    //         })
+    //         // if (onScreenBaddies.current.length > 3){
+    //         //         onScreenBaddies.current.shift();
+    //         //     }
+    //         // if(onScreenBaddies.collection.length > 0){
+    //         //     onScreenBaddies.current[onScreenBaddies.current.length] = onScreenBaddies.collection.pop();
+    //         //     setOnScreenBaddies({ ...onScreenBaddies })
+    //         // }else{
+    //         //     console.log("GAME OVER")
+    //         // }
+
+    //         }, 4000);
+    
+    //     return () => clearInterval(interval);
+    //   }, [slice.left, slice.right, aliensArray.length]);
+
+
+    function gameBoard() {
         const el = document.getElementById("canvas");
-        el.addEventListener("touchstart", weaponTap, false);
+        el.addEventListener("touchstart", gameTouchStart, false);
         // el.addEventListener("touchend", handleTouchEnd, false);
         // el.addEventListener("touchcancel", handleTouch, false);
         // el.addEventListener("touchmove", weaponTouchMove, false);
       }
 
-    console.log(aliensArray.length);
-    document.addEventListener("DOMContentLoaded", weaponBoard);
-    function weaponTap(e){
+    document.addEventListener("DOMContentLoaded", gameBoard);
+    
+    function gameTouchStart(e){
+        console.log("Check that touch elem bro!!! gameTouchStart() Checkin it!!");
+        console.log(e)
+
         if (e.touches.length > 1){
             e.preventDefault();
             // IS the new touch in the A (or watever letter) button? Do something!!
         }
-
         // If weapon is pressed, and note is correct - set the letter's state and then run func
         for (let i=0; i<e.changedTouches.length; i++){
             const touch = e.changedTouches[i];
-            console.log(touch);
             const height = (touch.clientY / screenHeight).toFixed(2);
+            // Check if touch is an alien ship.
+
             // 92% is the bottom margin for the weapon select. We changed it cause on actual touch it needs to be 75%
             const nineTwo = 0.75;
             if (height >= nineTwo){
@@ -118,7 +174,26 @@ function WeaponSelector(props){
                     setWeaponArray({ arr:[] });
                 },500)
             }else{
-                console.log("ELSE STATEMENT");
+                console.log("Tapped outside of weapon select");
+                function isInBetween(x){
+                    const y = parseInt(x);
+                    return y >= slice.left && y < slice.right ? true : false;
+                }
+                const elemId = e.target.id.split("alienKeyID*");
+                console.log(elemId);
+                const index = elemId[0]; 
+                if (elemId.length === 2){
+                    console.log("Elem ID: "+ index);
+                    // if elemId is an alien ID then add the eVent to the aliens object
+                    const currAlien = newAlienObj[index];
+                    currAlien.hit = true;
+                    currAlien.touched = true;
+                    currAlien.listeningHold = true;
+                    currAlien.eVent = touch;
+                    currAlien.eType = e.type;
+                    // Take these values and dispatch them in the AlienShip component - eVent and eType
+                    setWeaponShipObj({ ...weaponShipObj });
+                }
 
             }
         }
@@ -127,34 +202,38 @@ function WeaponSelector(props){
     // Filter the array of aliens on screen.
 
     // const deadList = [...weaponShipObj.deadOrDestroyedIDs];
-    function alienArrFilter(alien){
-        // Remove ships with the keyId of DEAD
-        return alien.props.keyId !== "DEAD"
+    
+    // function alienArrFilter(alien){
+    //     // Remove ships with the keyId of DEAD
+    //     console.log("ALIEN");
+    //     console.log(alien)
+    //     return alien.props.keyId !== "DEAD"
 
-    }
+    // }
 
     // Send the aliens at timed intervals
-    useEffect(() => {
-        const interval = setInterval(() => {
-          console.log('This will run every second!');
-          if(onScreenBaddies.collection.length > 0){
-            onScreenBaddies.current.push(onScreenBaddies.collection.pop());
-            setOnScreenBaddies({ ...onScreenBaddies })
-          }else{
-            console.log("GAME OVER")
-          }
-
-        }, 1000);
-        return () => clearInterval(interval);
-      }, []);
+    // const villains = onScreenBaddies.current.filter(alienArrFilter);
+    console.log("THE SLICES ARE HERE !!")
+    console.log(slice.left, slice.right);
+    // const liveOnScreen = aliensArray.slice(slice.left, slice.right);
+    // UPDATE - live on screen - to actually create the components from a filtered array of objects containing props 9-23
+    
+    const liveOnScreenNEW = [];
+    for (let i=slice.left; i<slice.right; i++){
+        // Build and then push the alien component
+        const ise = newAlienObj[i].eType? newAlienObj[i].eType : null
+        const newGuy = <Alienship left={newAlienObj[i].left} note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } hit={false} deadOrGone={false} touched={false} listeningHold={false} e={ise} eVent={newAlienObj[i].eVent} ></Alienship>
+        liveOnScreenNEW.push(newGuy)
+    }
+    // 9-23 Change this for loop to a for in or for in - the one fro objects
+    console.log(liveOnScreenNEW)
     return (
         <>
-            {onScreenBaddies.current.filter(alienArrFilter)}
-            {/* {onScreenVillains.active} */}
+            {liveOnScreenNEW}
             {weaponArray.arr}
 
         <div className="shipmetal" >
-            <LetterButtonSquare delay={2500} active={true} note={'A'} image={A} cssFilter={colorState.a} />
+            <LetterButtonSquare active={true} note={'A'} image={A} cssFilter={colorState.a} delay={2500} />
             <LetterButtonSquare active={false} note={'B'} image={B} cssFilter={colorState.b}  />
             <LetterButtonSquare active={true} note={'C'} image={C} cssFilter={colorState.c}  />
             <LetterButtonSquare active={false} note={'D'}  image={D} cssFilter={colorState.d}  />

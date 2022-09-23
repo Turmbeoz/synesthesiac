@@ -25,15 +25,16 @@ function App() {
   const villainXposition = Array.from({length: numOfVillains}, () => Math.floor(Math.random() * 90))
   // final array of villain components
   const villainsShipsArr = [];
+  const newAlienObj = {};
   for (let i=0; i<numOfVillains; i++){
-    const newGuy = <Alienship left={villainXposition[i]} note={villainKeyNotesArr[i].stringVer} gray={notesCSSandData.defaultGray.cssFilter} color={villainKeyNotesArr[i].cssFilter} key={i + 'alienKey'} keyId={i + 'alienKeyID'} ></Alienship>
+    const newGuy = <Alienship left={ villainXposition[i] } note={ villainKeyNotesArr[i].stringVer } gray={ notesCSSandData.defaultGray.cssFilter } color={ villainKeyNotesArr[i].cssFilter } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } hit={false} deadOrGone={false} touced={false} listeningHold={false}></Alienship>
+    newAlienObj[i] = { left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.cssFilter, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', hit: false, deadOrGone: false, touched: false, listeningHold: false, eVent: null }
     villainsShipsArr.push(newGuy)
   }
+  console.log("New Alien Object")
+  console.log(newAlienObj)
+  const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, e: null });
 
-  const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set()});
-  for (let i=0; i<20; i++){
-    villainsShipsArr.push()
-  }
   return (
     <div className="wrapper" id='canvas'>
       <WeaponAndShipContext.Provider value={{weaponShipObj, setWeaponShipObj}}>

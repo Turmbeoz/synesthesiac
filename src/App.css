@@ -104,7 +104,6 @@
   margin-right: auto;
   /* Make image unclickable */
   pointer-events: none;
-  touch-action: none;
   
   
 
@@ -260,7 +259,6 @@
   height: 90%;
   border: #151515;
   margin: 0.75%;
-  touch-action: none;
   border-radius: 5px;
   /* filter: drop-shadow(0 0 0.55rem rgb(100, 100, 100)); */
   box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
