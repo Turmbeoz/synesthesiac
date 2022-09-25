@@ -31,9 +31,7 @@ function App() {
     newAlienObj[i] = { left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.cssFilter, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', hit: false, deadOrGone: false, touched: false, listeningHold: false, eVent: null }
     villainsShipsArr.push(newGuy)
   }
-  console.log("New Alien Object")
-  console.log(newAlienObj)
-  const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, e: null });
+  const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set()});
 
   return (
     <div className="wrapper" id='canvas'>

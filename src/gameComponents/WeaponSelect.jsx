@@ -200,33 +200,24 @@ function WeaponSelector(props){
 
     }
     // Filter the array of aliens on screen.
-
-    // const deadList = [...weaponShipObj.deadOrDestroyedIDs];
-    
-    // function alienArrFilter(alien){
-    //     // Remove ships with the keyId of DEAD
-    //     console.log("ALIEN");
-    //     console.log(alien)
-    //     return alien.props.keyId !== "DEAD"
-
-    // }
-
-    // Send the aliens at timed intervals
-    // const villains = onScreenBaddies.current.filter(alienArrFilter);
-    console.log("THE SLICES ARE HERE !!")
-    console.log(slice.left, slice.right);
-    // const liveOnScreen = aliensArray.slice(slice.left, slice.right);
-    // UPDATE - live on screen - to actually create the components from a filtered array of objects containing props 9-23
-    
-    const liveOnScreenNEW = [];
-    for (let i=slice.left; i<slice.right; i++){
-        // Build and then push the alien component
-        const ise = newAlienObj[i].eType? newAlienObj[i].eType : null
-        const newGuy = <Alienship left={newAlienObj[i].left} note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } hit={false} deadOrGone={false} touched={false} listeningHold={false} e={ise} eVent={newAlienObj[i].eVent} ></Alienship>
-        liveOnScreenNEW.push(newGuy)
+    // const villainsShips = [aliensArray[0], aliensArray[1]];
+    const deadList = [...weaponShipObj.deadOrDestroyedIDs]
+    function alienArrFilter(alien){
+        const daKey = alien.key.split("alienKey")
+        for (let i=0; i<deadList.length; i++){
+            if (daKey[0] === deadList[i]){
+                return false;
+            }
+        }
+        return true
     }
-    // 9-23 Change this for loop to a for in or for in - the one fro objects
-    console.log(liveOnScreenNEW)
+    onScreenVillains.active = onScreenVillains.active.filter(alienArrFilter);
+    if (onScreenVillains.active.length < 1){
+        onScreenVillains.active.push(onScreenVillains.wholeList.pop())
+    }
+    console.log("CHECKING IDs for aliens")
+    console.log(weaponShipObj.deadOrDestroyedIDs);
+    console.log(onScreenVillains);
     return (
         <>
             {liveOnScreenNEW}
