@@ -7,21 +7,20 @@ import E from '../assets/E.png';
 import F from '../assets/F.png';
 import G from '../assets/G.png';
 import Bubbler from './Bubbler';
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import useInterval from '../gameInfo/useInterval';
 import Alienship from './Alienship';
 
 function WeaponSelector(props){
-    const { bubbleCssPos, notes, aliensArray } = props;
+    const { bubbleCssPos, notes } = props;
     const buttonWidth = window.screen.width / 7;
     // useContext hook for communication between ship and cannon
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
-    const { newAlienObj } = weaponShipObj;
+    const { newAlienObj, numOfVillains } = weaponShipObj;
     // Save note and state of ship being listened to.
     const buttonObj = { 0: buttonWidth, 1: buttonWidth*2, 2: buttonWidth*3, 3: buttonWidth*4, 4: buttonWidth*5, 5: buttonWidth*6, 6:buttonWidth*7 };
     const screenHeight = window.screen.height;
-    const [onScreenBaddies, setOnScreenBaddies] = useState({ collection: aliensArray, current: [] });
     const [weaponArray, setWeaponArray] = useState({ arr: [] });
     const [colorState, setColorState] = useState({
 
@@ -36,14 +35,14 @@ function WeaponSelector(props){
     });
     const [slice, setSlice] = useState({ left: 0, right: 1 })
     function runTheInterval(){
-        
+        console.log(slice.left, slice.right)
         const difference = slice.right - slice.left;
-        if(slice.right < aliensArray.length){
+        if(slice.right < numOfVillains){
             slice.right += 1;
         }
         if (slice.left < slice.right && difference > 3 && difference < 5){
             slice.left += 1;
-        }else if (slice.left < slice.right && slice.right === aliensArray.length-1){
+        }else if (slice.left < slice.right && slice.right === numOfVillains-1){
             slice.left += 1;
         }
         setSlice(() => {
@@ -97,7 +96,7 @@ function WeaponSelector(props){
     
     function gameTouchStart(e){
         console.log("Check that touch elem bro!!! gameTouchStart() Checkin it!!");
-        console.log(e)
+        // console.log(e)
 
         if (e.touches.length > 1){
             e.preventDefault();
@@ -174,25 +173,25 @@ function WeaponSelector(props){
                     setWeaponArray({ arr:[] });
                 },500)
             }else{
-                console.log("Tapped outside of weapon select");
+                // console.log("Tapped outside of weapon select");
                 function isInBetween(x){
                     const y = parseInt(x);
                     return y >= slice.left && y < slice.right ? true : false;
                 }
                 const elemId = e.target.id.split("alienKeyID*");
-                console.log(elemId);
+                // console.log(elemId);
                 const index = elemId[0]; 
                 if (elemId.length === 2){
-                    console.log("Elem ID: "+ index);
+                    // console.log("Elem ID: "+ index);
                     // if elemId is an alien ID then add the eVent to the aliens object
-                    const currAlien = newAlienObj[index];
-                    currAlien.hit = true;
-                    currAlien.touched = true;
-                    currAlien.listeningHold = true;
-                    currAlien.eVent = touch;
-                    currAlien.eType = e.type;
-                    // Take these values and dispatch them in the AlienShip component - eVent and eType
-                    setWeaponShipObj({ ...weaponShipObj });
+                    // const currAlien = newAlienObj[index];
+                    // currAlien.hit = true;
+                    // currAlien.touched = true;
+                    // currAlien.listeningHold = true;
+                    // currAlien.eVent = touch;
+                    // currAlien.eType = e.type;
+                    // // Take these values and dispatch them in the AlienShip component - eVent and eType
+                    // setWeaponShipObj({ ...weaponShipObj });
                 }
 
             }
@@ -200,24 +199,21 @@ function WeaponSelector(props){
 
     }
     // Filter the array of aliens on screen.
-    // const villainsShips = [aliensArray[0], aliensArray[1]];
-    const deadList = [...weaponShipObj.deadOrDestroyedIDs]
-    function alienArrFilter(alien){
-        const daKey = alien.key.split("alienKey")
-        for (let i=0; i<deadList.length; i++){
-            if (daKey[0] === deadList[i]){
-                return false;
-            }
-        }
-        return true
+    const liveOnScreenNEW = []
+    // function alienArrFilter(alien){
+    //     const daKey = alien.key.split("alienKey")
+    //     for (let i=0; i<deadList.length; i++){
+    //         if (daKey[0] === deadList[i]){
+    //             return false;
+    //         }
+    //     }
+    //     return true
+    // }
+    for (let i=slice.left; i<slice.right; i++){
+        const newGuy = <Alienship left={ newAlienObj[i].left } note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } index={newAlienObj[i].index} idle={newAlienObj[i].idle} touched={newAlienObj[i].touched} listeningHold={newAlienObj[i].listeningHold} ></Alienship>
+        liveOnScreenNEW.push(newGuy)
     }
-    onScreenVillains.active = onScreenVillains.active.filter(alienArrFilter);
-    if (onScreenVillains.active.length < 1){
-        onScreenVillains.active.push(onScreenVillains.wholeList.pop())
-    }
-    console.log("CHECKING IDs for aliens")
-    console.log(weaponShipObj.deadOrDestroyedIDs);
-    console.log(onScreenVillains);
+    // console.log("CHECKING IDs for aliens");
     return (
         <>
             {liveOnScreenNEW}
