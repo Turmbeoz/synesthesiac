@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 
 export default function Bubbler(props) {
   const { styles, delay } = props;
+  
   useEffect(() => {
 
     const timer = setTimeout(() => {

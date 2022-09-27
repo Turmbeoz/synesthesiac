@@ -35,14 +35,10 @@ function Alienship(props){
         cssFilterGRAY: `invert(${props.gray.invert}%) sepia(${props.gray.sepia}%) saturate(${props.gray.saturate}%) hue-rotate(${props.gray.hueRotate}) brightness(${props.gray.brightness}%) contrast(${props.gray.contrast}%)`,
         cssFilterCOLOR: `invert(${props.color.invert}%) sepia(${props.color.sepia}%) saturate(${props.color.saturate}%) hue-rotate(${props.color.hueRotate}) brightness(${props.color.brightness}%) contrast(${props.color.contrast}%)`,
     })
-    function handleTouch(e){
-        // console.log(e);
-    }
 
-    function touchingShipVerifier(x, y){
-        // Verify the touch is inside X, Y bounds of ship
-        const leftVal = ((x / window.screen.width)*100).toFixed(1);
-        const topVal = ((y / window.screen.height)*100).toFixed(1);
+    function touchVerify(touch){
+        const leftVal = ((touch.clientX / window.screen.width)*100).toFixed(1);
+        const topVal = ((touch.clientY / window.screen.height)*100).toFixed(1);
         const leftDiff = Math.abs(leftVal - shipState.left);
         const topDiff = Math.abs(topVal - shipState.top);
         const totalDiff  = leftDiff + topDiff;
@@ -52,7 +48,8 @@ function Alienship(props){
         }
         return false;
     }
-    function newTououchStart(e){
+
+    function newTouchStart(e){
         console.log("New Touch Start");
         if (e.touches.length > 1){
             e.preventDefault();
@@ -62,14 +59,14 @@ function Alienship(props){
         shipState.idle = true;
         shipState.listeningHold = true;
         shipState.spinsSeconds = 1;
-        shipState.hit = true;
+        // shipState.hit = true;
         
         
         currAlien.touched = true;
         currAlien.idle = true;
         currAlien.listeningHold = true;
         currAlien.spinsSeconds = 1;
-        currAlien.hit = true;
+        // currAlien.hit = true;
         setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj } })
         setShipState({ ...shipState });
     }
@@ -79,8 +76,22 @@ function Alienship(props){
         if (e.touches.length > 1){
             e.preventDefault();
         }
+        let stillTouchingBool = false;
+        for (let i=0; i<e.touches.length; i++){
+            const touch = e.touches[i];
+            console.log(touch)
+            if (touchVerify(touch)){
+                stillTouchingBool = true;
+            }
+
+        }
+        if (!stillTouchingBool){
+            const currAlien = newAlienObj[props.index];
+            currAlien.listeningHold = false;
+            setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj } })
+            return
+        }
         // MAKE SURE THAT THE TOUCH MOVE IS WORKING AFTER SHOWER
-        console.log(e)
         
     }
     function newTouchEnd(e){
@@ -90,45 +101,24 @@ function Alienship(props){
         }
         const currAlien = newAlienObj[props.index];
         currAlien.listeningHold = false;
-        setWeaponShipObj({ ...weaponShipObj, newAlienObj: {...newAlienObj}})
+        setWeaponShipObj({ ...weaponShipObj, newAlienObj: {...newAlienObj}});
+
     }
-
-
-    // function startup() {
-    //     const el = document.getElementById("canvas");
-    //     el.addEventListener("touchstart", handleTouchStartFunc, false);
-    //     el.addEventListener("touchend", handleTouchEnd, false);
-    //     el.addEventListener("touchcancel", handleTouch, false);
-    //     el.addEventListener("touchmove", handleTouchMove, false);
-    //   }
-      
-    // document.addEventListener("DOMContentLoaded", startup);
 
     useEffect(() => {
         // setShipState({ ...shipState });
         const interval = setInterval(() => {
-            moveShip();
-            if (shipState.top >= 0){
-                return () => clearInterval(interval)
+        moveShip();
+        if (shipState.top >= 0){
+            return () => clearInterval(interval)
             }
         }, shipState.frameRate);
         return () => clearInterval(interval);
       }, []);
 
-      
-    function stopShip(){
-        // Cause Ship to stop
-        // shipState.touched = false;
-        // shipState.leftOrRight = Math.random() < 0.5 ? -1 : 1;
-        // shipState.listeningHold = true;
-        // setShipState({...shipState, touched: false, leftOrRight: Math.random() < 0.5 ? -1 : 1})
-    }
+    
     function moveShip(){
-        
-        // Change y position and create jump effect
         if (shipState.top > 95){
-            // Fix this line below
-            // document.getElementById(shipState.keyId).id = "DEAD"; 
             setShipState({ ...shipState });
             return;
         }
@@ -136,7 +126,6 @@ function Alienship(props){
             if (shipState.touched){
                 shipState.jumpCoeff *= 1.25;
                 shipState.height *= 1.45;
-                // setShipState({ ...shipState, jumpCoeff: shipState.jumpCoeff, height: shipState.height });
             }
             // Avoid overflow by not allowing more than 95. ALSO CAUSE IMPACT (damage) HERE!!! Delete!!! 95 since it starts at 94
             if (shipState.top < 95){
@@ -211,7 +200,7 @@ function Alienship(props){
         
         <div className='flares'>
         {flare}  
-        <div className='shrinker' onTouchStart={(e)=> newTououchStart(e)} onTouchMove={(e)=> newTouchMove(e)} onTouchEnd={(e)=> newTouchEnd(e)} id={shipState.keyId + '*'+'A'} style={{
+        <div className='shrinker' onTouchStart={(e)=> newTouchStart(e)} onTouchMove={(e)=> newTouchMove(e)} onTouchEnd={(e)=> newTouchEnd(e)} id={shipState.keyId + '*'+'A'} style={{
             position: 'absolute',
             left: shipState.left + '%',
             top: shipState.top + '%',

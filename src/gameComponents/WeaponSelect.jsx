@@ -86,7 +86,7 @@ function WeaponSelector(props){
 
     function gameBoard() {
         const el = document.getElementById("canvas");
-        el.addEventListener("touchstart", gameTouchStart, false);
+        // el.addEventListener("touchstart", gameTouchStart, false);
         // el.addEventListener("touchend", handleTouchEnd, false);
         // el.addEventListener("touchcancel", handleTouch, false);
         // el.addEventListener("touchmove", weaponTouchMove, false);
@@ -96,7 +96,7 @@ function WeaponSelector(props){
     
     function gameTouchStart(e){
         console.log("Check that touch elem bro!!! gameTouchStart() Checkin it!!");
-        // console.log(e)
+        console.log(e)
 
         if (e.touches.length > 1){
             e.preventDefault();
@@ -221,12 +221,12 @@ function WeaponSelector(props){
 
         <div className="shipmetal" >
             <LetterButtonSquare active={true} note={'A'} image={A} cssFilter={colorState.a} delay={2500} />
-            <LetterButtonSquare active={false} note={'B'} image={B} cssFilter={colorState.b}  />
-            <LetterButtonSquare active={true} note={'C'} image={C} cssFilter={colorState.c}  />
-            <LetterButtonSquare active={false} note={'D'}  image={D} cssFilter={colorState.d}  />
-            <LetterButtonSquare active={true} note={'E'} image={E} cssFilter={colorState.e}  />
-            <LetterButtonSquare active={false} note={'F'} image={F} cssFilter={colorState.f}  />
-            <LetterButtonSquare active={false} note={'G'}  image={G} cssFilter={colorState.g}  />
+            <LetterButtonSquare active={false} note={'B'} image={B} cssFilter={colorState.b}  delay={2500}/>
+            <LetterButtonSquare active={true} note={'C'} image={C} cssFilter={colorState.c}  delay={2500}/>
+            <LetterButtonSquare active={false} note={'D'}  image={D} cssFilter={colorState.d} delay={2500} />
+            <LetterButtonSquare active={true} note={'E'} image={E} cssFilter={colorState.e}  delay={2500}/>
+            <LetterButtonSquare active={false} note={'F'} image={F} cssFilter={colorState.f}  delay={2500}/>
+            <LetterButtonSquare active={false} note={'G'}  image={G} cssFilter={colorState.g}  delay={2500}/>
         </div>
         
         </>
