@@ -16,25 +16,26 @@ function App() {
   const bubbleCenterArr = [];
   const currentKey = keys.Ckey;
   const numOfVillains = 20;
-  for (let i=0; i<7; i++){
-    let num = (((AbuttonCenter + buttonWidth*i) / window.screen.width)*100).toFixed(2);
-    bubbleCenterArr.push(num);
-  }
   // Arrray of note objects.One eaach shows up and we'll add 10 or so random from the list to make it longer
-  const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[5]);
+  // const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[0]);
+  const villainKeyNotesArr = [...keys.Ckey] //.sort(() => Math.random() - 0.5);;
+  const remainVillains = numOfVillains - villainKeyNotesArr.length;
+  for (let i=0; i<remainVillains; i++){
+    villainKeyNotesArr.push(currentKey[Math.floor(Math.random()*currentKey.length)])
+  }
   const villainXposition = Array.from({length: numOfVillains}, () => Math.floor(Math.random() * 90))
   // final array of villain components
   const villainsShipsArr = [];
-  const newAlienObj = {};
+  const newAlienObj = { listening: null };
   for (let i=0; i<numOfVillains; i++){
-    newAlienObj[i] = { left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.cssFilter, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 1, listeningHold: false }
+    newAlienObj[i] = { left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 1, listeningHold: false }
   }
-  const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains });
+  const [weaponShipObj, setWeaponShipObj] = useState({ deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, });
   // console.log(newAlienObj)
   return (
     <div className="wrapper" id='canvas'>
       <WeaponAndShipContext.Provider value={{weaponShipObj, setWeaponShipObj}}>
-      <WeaponSelector notes={notesCSSandData} aliensArray={weaponShipObj.villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
+      <WeaponSelector notes={currentKey} aliensArray={weaponShipObj.villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
       </WeaponAndShipContext.Provider>
         <div className='header'>
               <img src={earth} className="earth" alt="earth" />

@@ -5,11 +5,11 @@ const notesCSSandData = {
 
     b: {stringVer: 'B', cssFilter: { invert: 67, sepia: 38, saturate: 2827, hueRotate: 359, brightness: 101, contrast: 107 }, hex: '#ffa500' },
 
-    c: {stringVer: 'C', cssFilter: { invert: 75, sepia: 76, saturate: 675, hueRotate: 325, brightness: 101, contrast: 101 }, hex: '#ffae42' },
+    c: {stringVer: 'C', cssFilter: { invert: 75, sepia: 76, saturate: 675, hueRotate: 325, brightness: 101, contrast: 101 }, hex: '#ffff00' },
 
-    cSharpDflat: {stringVer: 'C#/Db', cssFilter: { invert: 88, sepia: 58, saturate: 765, hueRotate: 1, brightness: 106, contrast: 104 }, hex: '#ffff00' },
+    cSharpDflat: {stringVer: 'C#/Db', cssFilter: { invert: 88, sepia: 58, saturate: 765, hueRotate: 1, brightness: 106, contrast: 104 }, hex: '#9acd32' },
 
-    d: {stringVer: 'D', cssFilter: { invert: 72, sepia: 8, saturate: 3195, hueRotate: 38, brightness:101, contrast:91 }, hex: '#9acd32' },
+    d: {stringVer: 'D', cssFilter: { invert: 72, sepia: 8, saturate: 3195, hueRotate: 38, brightness:101, contrast:91 }, hex: '#1BFA01' },
 
     dSharpEflat: {stringVer: 'D#/Eb', cssFilter: { invert: 22, sepia: 96, saturate: 2118, hueRotate: 99, brightness: 101, contrast: 103 }, hex: '#008000' },
 
@@ -23,9 +23,9 @@ const notesCSSandData = {
 
     gSharpAflat: { stringVer: 'G#/Ab', cssFilter: { invert: 6, sepia: 94, saturate: 6084, hueRotate: 298, brightness: 114, contrast: 104 }, hex: '#800080' },
     
-    defaultGray: { cssFilter: { invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90 }},
+    defaultGray: { hex: '#CACACA'},
 
-    deactiveGray: { cssFilter: { invert: 18, sepia: 6, saturate: 23, hueRotate: 14, brightness: 94, contrast: 96 } }
+    deactiveGray: { hex: '#090909' }
 }
 export default notesCSSandData;
 

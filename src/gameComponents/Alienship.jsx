@@ -41,8 +41,7 @@ function Alienship(props){
         const topVal = ((touch.clientY / window.screen.height)*100).toFixed(1);
         const leftDiff = Math.abs(leftVal - shipState.left);
         const topDiff = Math.abs(topVal - shipState.top);
-        const totalDiff  = leftDiff + topDiff;
-
+        const totalDiff  = (leftDiff + topDiff).toFixed(0);
         if (totalDiff < 30){
             return true;
         }
@@ -50,36 +49,41 @@ function Alienship(props){
     }
 
     function newTouchStart(e){
-        console.log("New Touch Start");
         if (e.touches.length > 1){
             e.preventDefault();
         }
-        const currAlien = newAlienObj[props.index];
-        shipState.touched = true;
-        shipState.idle = true;
-        shipState.listeningHold = true;
-        shipState.spinsSeconds = 1;
-        // shipState.hit = true;
-        
-        
-        currAlien.touched = true;
-        currAlien.idle = true;
-        currAlien.listeningHold = true;
-        currAlien.spinsSeconds = 1;
-        // currAlien.hit = true;
-        setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj } })
-        setShipState({ ...shipState });
+        let boolChange = false;
+        for (let i=0; i<e.touches.length; i++){
+            if (touchVerify(e.touches[i])){
+                boolChange = true;
+            }
+        }
+        if (boolChange){
+            const currAlien = newAlienObj[props.index];
+            shipState.touched = true;
+            shipState.idle = true;
+            shipState.listeningHold = true;
+            shipState.spinsSeconds = 1;
+            currAlien.touched = true;
+            currAlien.idle = true;
+            currAlien.listeningHold = true;
+            currAlien.spinsSeconds = 1;
+            newAlienObj.listening = props.note;
+            console.log(newAlienObj.listening)
+            currAlien.hit = true;
+            setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } })
+            setShipState({ ...shipState });
+        }
+
     }
 
     function newTouchMove(e){
-        console.log("WE MOVIN MOVIN FUNCTION");
         if (e.touches.length > 1){
             e.preventDefault();
         }
         let stillTouchingBool = false;
         for (let i=0; i<e.touches.length; i++){
             const touch = e.touches[i];
-            console.log(touch)
             if (touchVerify(touch)){
                 stillTouchingBool = true;
             }
@@ -88,20 +92,20 @@ function Alienship(props){
         if (!stillTouchingBool){
             const currAlien = newAlienObj[props.index];
             currAlien.listeningHold = false;
-            setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj } })
+            newAlienObj.listening = null;
+            setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } })
             return
         }
         // MAKE SURE THAT THE TOUCH MOVE IS WORKING AFTER SHOWER
         
     }
     function newTouchEnd(e){
-        console.log("ENDED");
         if(e.touches.length > 1){
             e.preventDefault();
         }
         const currAlien = newAlienObj[props.index];
         currAlien.listeningHold = false;
-        setWeaponShipObj({ ...weaponShipObj, newAlienObj: {...newAlienObj}});
+        setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } });
 
     }
 
@@ -118,7 +122,7 @@ function Alienship(props){
 
     
     function moveShip(){
-        if (shipState.top > 95){
+        if (shipState.top >= 95){
             setShipState({ ...shipState });
             return;
         }
@@ -149,7 +153,6 @@ function Alienship(props){
         
         if (newAlienObj[props.index].idle){
             // Run action to idle
-            console.log("WE IDLING")
             if (shipState.idleArray.length === 0){
 
                 //CHANGE TO BACK ON ONCE DONE FINDING BLINKER!!!
@@ -182,7 +185,7 @@ function Alienship(props){
         }
 
         // Check if being hit and add animation / color (css for that pic) of shiny thingy / also change center of gravity for rotation animation
-        setShipState({...shipState, idleCount: shipState.idleCount, listeningHold: shipState.listeningHold, opacity: shipState.opacity, opacity: shipState.opacity});
+        setShipState({...shipState });
         // Check if destroyed - animate destruction. Swap pics and
     }
     if (newAlienObj[props.index].listeningHold && newAlienObj[props.index].idle){
@@ -213,7 +216,7 @@ function Alienship(props){
             <img className='forcefield' style={{
                 height: shipState.height + 'px',
                 animation: `rotation ${shipState.spinsSeconds}s infinite linear`,
-                overscrollBehavior: 'none',
+                overscrollBehavior: 'none'
             }} src={blackdots} alt="ship" />
         </div>
       </div>

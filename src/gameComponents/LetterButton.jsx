@@ -1,73 +1,86 @@
 import phaserGlow from '../assets/phaserGlow.png';
 import Bubbler from './Bubbler';
-import notesCSSandData from '../gameInfo/notesCSSandData';
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { WeaponAndShipContext } from '../gameInfo/gameContext';
+
 
 // 8/18 - animate the weapon firing, if the note is the same, then color it. If not, leave it b/w
 function LetterButtonSquare(props){
     let shooter;
-    const { note } = props;
-    const [buttonsState, setButtonState] = useState({invert: 93, sepia: 2, saturate: 21, hueRotate: 314, brightness: 94, contrast: 90});
+    const active = '#CACACA';
+    const inactive = '#090909';
+    const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
+    const { note, colorCSS, gray } = props;
+    const [buttonsState, setButtonState] = useState({currColor: '#CACACA'})
     const [weaponStateLetter, setWeaponStateLetter] = useState({
-        a: false,
-        b: false,
-        c: false,
-        d: false,
-        e: false,
-        f: false,
-        g: false,
         wubblesI:[]
-    
     })
-    const styles = {
-        touchAction: 'none',
-        opacity: 95,
-        pointerEvents: 'none',
-        bottom: '-20%',
-        position: 'fixed',
-        filter: `invert(${notesCSSandData.a.cssFilter.invert}%) sepia(${notesCSSandData.a.cssFilter.sepia}%) saturate(${notesCSSandData.a.cssFilter.saturate}%) hue-rotate(${notesCSSandData.a.cssFilter.hueRotate}deg) brightness(${notesCSSandData.a.cssFilter.brightness}%) contrast(${notesCSSandData.a.cssFilter.contrast}%)`
-        }
-    const wubbles = <Bubbler key={'00'} styles={styles}></Bubbler>
-    // 8/14/2022 - alter event listeners so we are getting the right actions
-    // function trigger() {
-    //     const el = document.getElementById("canvas");
-    //     el.addEventListener("touchstart", shoot, false);
-    //     // el.addEventListener("touchend", handleTouchEnd, false);
-    //     // el.addEventListener("touchcancel", handleTouch, false);
-    //     // el.addEventListener("touchmove", handleTouchMove, false);
-    //   }
-    //   document.addEventListener("DOMContentLoaded", trigger);
-    
+    const cssEffect = useEffect(()=>{
+        console.log("HUH")
+    }, [buttonsState])
+
     function shoot(e){
         console.log('Shoot that mofo!!!');
+
+        // Uncomment later after passing the active or not prop for the buttons
+        if (!props.active){
+            return;
+        }
         const screenHeight = window.screen.height;
         if (e.touches.length > 1){
             e.preventDefault();
         }
-        console.log(e)
-        // IS the new touch in the A (or watever letter) button? Do something!!
-        for (let i=0; i<e.changedTouches.length; i++){
-            const touch = e.changedTouches[i];
-            const height = (touch.clientY / screenHeight).toFixed(2);
+        console.log("They aint listenen")
+
+        const theysListenin = (weaponShipObj.newAlienObj.listening && note === weaponShipObj.newAlienObj.listening);
+        console.log(theysListenin)
+        if (theysListenin){
+            console.log("Theys the same!!");
+            setButtonState({currColor: props.colorCSS.hex});
+            console.log(buttonsState);
+
+        }else{
+            setButtonState({currColor: '#CACACA'});
         }
+        const wubbles = (<Bubbler key={'00'} hex={theysListenin? props.colorCSS.hex : "#CACACA"}></Bubbler>);
 
         setWeaponStateLetter({...weaponStateLetter, wubblesI: [wubbles]})
+        setTimeout(()=>{
+            setWeaponStateLetter({...weaponStateLetter, wubblesI: []})
+        },500)
     
+    }
+    function shootEnd(e){
+        if (!props.active){
+            return;
+        }
+        setTimeout(()=>{
+            // const active = props.colorCSS.hex;
+            // const inactive = props.gray.hex; 
+            const active = '#CACACA';
+            const inactive = '#090909';
+            const cssStat = props.active? active : inactive
+            setButtonState({ currColor: cssStat })
+    
+            
+        }, 500)
     }
     return (
         
-        <div className="letterbutton" onTouchStart={(e) => shoot(e)}>
+        <div className="letterbutton" onTouchStart={(e)=> shoot(e)} onTouchEnd={(e)=> shootEnd(e)}>
             {weaponStateLetter.wubblesI}
-            <img src={props.image} className="abcdefg" 
-                    style={{
-                    filter: `invert(${props.cssFilter.invert}%) sepia(${props.cssFilter.sepia}%) saturate(${props.cssFilter.saturate}%) hue-rotate(${props.cssFilter.hueRotate}deg) brightness(${props.cssFilter.brightness}%) contrast(${props.cssFilter.contrast}%)`,
-                    opacity: '75%',
-                    height: '90%',
-                    touchAction: 'none',
-                    pointerEvents: 'none',
-                    marginTop: '5%',
-                    }}
-                    alt="let" />
+            
+            <h1 className='buttonTEXT' style={{
+                height: '90%',
+                marginTop: '30%',
+                filter: "blur(0.5px)",
+                color: buttonsState.currColor,
+                'WebkitAnimation': 'flickerletter 8s infinite',
+                'MozAnimation': 'flickerletter 8s infinite',
+                'animation': 'flickerletter 8s infinite' 
+                }}>{props.note}
+            </h1>    
+            
         </div>
         
        

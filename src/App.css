@@ -11,7 +11,20 @@
   max-width: fit-content;
 }
 
+@font-face {
+  font-family: 'Technetium';
+  src: url(./fonts/Technetium-owLB.ttf);
+}
 
+@font-face {
+  font-family: 'EstrogenPill-rmK';
+  src: url(./fonts/EstrogenPill-rmK.ttf);
+}
+
+@font-face {
+  font-family: 'Estrogen-YJL';
+  src: url(./fonts/Estrogen-YJL.ttf);
+}
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -147,6 +160,7 @@
   position: absolute;
   margin-left: 70%;
   pointer-events: none; 
+  bottom: 9%;
 }
 
 .header{
@@ -191,7 +205,6 @@
   margin: 0;
   opacity: 60%;
   background: url('./assets/starsbackground.png') center center;
-  touch-action: none;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -228,13 +241,10 @@
     animation: fadeInFromNone 1.5s;
     overscroll-behavior: 'none'
   }
-.letters{
-  opacity: 85%;
-  filter: invert(58%) sepia(61%) saturate(3754%) hue-rotate(137deg) brightness(99%) contrast(91%);
-}
+
 
 .shipmetal{
-  height: 8%;
+  height: 12%;
   width: 100%;
   max-width: 400px;
   bottom: 0;
@@ -242,30 +252,33 @@
   position: fixed;
   box-sizing: content-box;
   z-index: 1;
-  pointer-events: none;
 
   display: flex;
   justify-content: space-around;
-  /* border-width: 8px;
-  border-style: solid;
-  border-image: linear-gradient(to right bottom, #260B3C, #a053df);
-  border-image-slice: 1; */
+
 }
 
 .letterbutton{
-  color: #222;
+  /* color: #222; */
+  /* -webkit-filter: invert(18) sepia(6) saturate(23) hue-rotate(14) brightness(94) contrast(90);
+  filter: invert(18) sepia(6) saturate(23) hue-rotate(14) brightness(94) contrast(90); */
   display: flex;
   justify-content: center;
-  height: 90%;
-  border: #151515;
+  height: 100%;
   margin: 0.75%;
   border-radius: 5px;
-  /* filter: drop-shadow(0 0 0.55rem rgb(100, 100, 100)); */
   box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
   width: 10%;
   bottom: 0;
+  /* -webkit-filter: invert(14) sepia(83) saturate(7052) hue-rotate(359) brightness(92) contrast(118); */
+  font-family: EstrogenPill-rmK;
+  color: 'gray';
+  
+
 
 }
+
+
 .phaserGlow{
   height: 100%;
   display: flex;
@@ -302,4 +315,39 @@
     overscroll-behavior: 'none';
     position: fixed;
     z-index: 3;
+}
+
+
+@keyframes flickerletter {
+  0%   { opacity:0.5; }
+  50%  { opacity:0.65; }
+  100% { opacity:0.5; }
+}
+@-o-keyframes flickerletter{
+  0%   { opacity:0.5; }
+  50%  { opacity:0.65; }
+  100% { opacity:0.5; }
+}
+@-moz-keyframes flickerletter{
+  0%   { opacity:0.5; }
+  50%  { opacity:0.65; }
+  100% { opacity:0.5; }
+}
+@-webkit-keyframes flickerletter{
+  0%   { opacity:0.5; }
+  50%  { opacity:0.65; }
+  100% { opacity:0.5; }
+}
+
+
+.buttonTEXT{
+  font-family: Estrogen-YJL;
+  font-size: 60px;
+
+}
+
+.inactiveButtonTEXT{
+  font-family: EstrogenPill-rmK;
+  font-size: 85%;
+  color: rgb(81, 81, 81);
 }
