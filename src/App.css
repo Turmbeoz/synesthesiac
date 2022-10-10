@@ -9,6 +9,11 @@
   background: url("./assets/starsForeground1.png") repeat-x;
   overflow-y: hidden; 
   max-width: fit-content;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+    -o-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
 }
 
 @font-face {
@@ -314,6 +319,7 @@
     height: 60%;
     overscroll-behavior: 'none';
     position: fixed;
+    transition: all 0.5s ease;
     z-index: 3;
 }
 
@@ -343,11 +349,18 @@
 .buttonTEXT{
   font-family: Estrogen-YJL;
   font-size: 60px;
+  transition: all 0.5s ease;
 
 }
+
 
 .inactiveButtonTEXT{
   font-family: EstrogenPill-rmK;
   font-size: 85%;
   color: rgb(81, 81, 81);
+}
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

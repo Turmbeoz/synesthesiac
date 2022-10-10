@@ -19,7 +19,7 @@ function Alienship(props){
         left: props.left,
         top: 94,
         height: 60,
-        spinsSeconds: 4,
+        spinsSeconds: props.spinsSeconds,
         hit: props.hit,
         jumpCoeff: 1.5,
         frameRate: 40,
@@ -52,6 +52,9 @@ function Alienship(props){
         if (e.touches.length > 1){
             e.preventDefault();
         }
+        weaponShipObj.tempEvent = e.touches;
+        console.log(weaponShipObj.tempEvent)
+        console.log(e.touches)
         let boolChange = false;
         for (let i=0; i<e.touches.length; i++){
             if (touchVerify(e.touches[i])){
@@ -60,10 +63,6 @@ function Alienship(props){
         }
         if (boolChange){
             const currAlien = newAlienObj[props.index];
-            shipState.touched = true;
-            shipState.idle = true;
-            shipState.listeningHold = true;
-            shipState.spinsSeconds = 1;
             currAlien.touched = true;
             currAlien.idle = true;
             currAlien.listeningHold = true;
@@ -94,7 +93,7 @@ function Alienship(props){
             currAlien.listeningHold = false;
             newAlienObj.listening = null;
             setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } })
-            return
+            return;
         }
         // MAKE SURE THAT THE TOUCH MOVE IS WORKING AFTER SHOWER
         
@@ -137,7 +136,7 @@ function Alienship(props){
             }
             
             // Ship gets closer - increase height to 'less than n height'
-            if (shipState.height < 150){
+            if (shipState.height < 125){
                 shipState.height += 1;
                 if (shipState.opacity <= 100){
                     shipState.opacity += 1
@@ -156,9 +155,7 @@ function Alienship(props){
             if (shipState.idleArray.length === 0){
 
                 //CHANGE TO BACK ON ONCE DONE FINDING BLINKER!!!
-                shipState.touched = true;
-                shipState.idle = false;
-                shipState.listeningHold = false;
+ 
                 newAlienObj[props.index].touched = true;
                 newAlienObj[props.index].idle = false;
                 newAlienObj[props.index].listeningHold = false;

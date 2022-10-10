@@ -1,6 +1,5 @@
 import LetterButtonSquare from './LetterButton';
 import A from '../assets/A.png';
-import Asvg from '../assets/A.svg'
 // import Ared from '../assets/Ared.png';
 import B from '../assets/B.png';
 import C from '../assets/C.png';
@@ -15,6 +14,7 @@ import useInterval from '../gameInfo/useInterval';
 import Alienship from './Alienship';
 import notesCSSandData from '../gameInfo/notesCSSandData';
 
+
 function WeaponSelector(props){
     const { bubbleCssPos, notes } = props;
     const buttonWidth = window.screen.width / 7;
@@ -27,7 +27,7 @@ function WeaponSelector(props){
     //     0: {colorCSS: notes[0], active: true, image: A, }
     // })
     const [weaponArray, setWeaponArray] = useState({ arr: [] });
-    const [slice, setSlice] = useState({ left: 0, right: 1 })
+    const [slice, setSlice] = useState({ left: 0, right: 1 });
     function runTheInterval(){
         const difference = slice.right - slice.left;
         if(slice.right < numOfVillains){
@@ -56,14 +56,13 @@ function WeaponSelector(props){
     const weaponSreadArray = [];
     for (let i=0; i<7; i++){
         // Create LBS dynamically
-        const letterButton = <LetterButtonSquare active={ keyShift[i] } note={ tempNOTES[i] } gray={keyShift[i]? activeGray : inactiveGray} colorCSS={notes[i]} delay={2500} listening={newAlienObj.listening} key={notes[i].stringVer+'lbs'}/>
+        const letterButton = <LetterButtonSquare active={ keyShift[i] } note={ tempNOTES[i] } gray={keyShift[i]? activeGray : inactiveGray} colorCSS={notes[i]} delay={2500} listening={newAlienObj.listening} key={ notes[i].stringVer+'lbs' }/>
         weaponSreadArray.push(letterButton)
     }
     return (
         <>
             {liveOnScreenNEW}
             {weaponArray.arr}
-
         <div className="shipmetal" >
         {weaponSreadArray}
         </div>

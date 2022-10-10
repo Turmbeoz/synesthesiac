@@ -1,10 +1,14 @@
 import phaserGlow from '../assets/phaserGlow.png';
 import Bubbler from './Bubbler';
+import Lightning from './LightningComponent';
 import { useState, useEffect, useContext } from "react";
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 
 
-// 8/18 - animate the weapon firing, if the note is the same, then color it. If not, leave it b/w
+
+
+
+
 function LetterButtonSquare(props){
     let shooter;
     const active = '#CACACA';
@@ -21,7 +25,8 @@ function LetterButtonSquare(props){
 
     function shoot(e){
         console.log('Shoot that mofo!!!');
-
+        console.log(e.touches);
+        console.log(weaponShipObj.tempEvent);
         // Uncomment later after passing the active or not prop for the buttons
         if (!props.active){
             return;
@@ -31,20 +36,27 @@ function LetterButtonSquare(props){
             e.preventDefault();
         }
         console.log("They aint listenen")
-
+        let hexValForLightnin = '#CACACA';
         const theysListenin = (weaponShipObj.newAlienObj.listening && note === weaponShipObj.newAlienObj.listening);
-        console.log(theysListenin)
         if (theysListenin){
             console.log("Theys the same!!");
             setButtonState({currColor: props.colorCSS.hex});
-            console.log(buttonsState);
+            // INSERT THE NEW LIGHTNING PROP HERE 10/05/22
+            hexValForLightnin = props.colorCSS.hex;
 
         }else{
             setButtonState({currColor: '#CACACA'});
         }
         const wubbles = (<Bubbler key={'00'} hex={theysListenin? props.colorCSS.hex : "#CACACA"}></Bubbler>);
 
-        setWeaponStateLetter({...weaponStateLetter, wubblesI: [wubbles]})
+        // 10/6 Create the timeout that the lightning will take up. It's brightness flickering randomly.
+        const aSqr = (weaponShipObj.tempEvent[0].clientY - e.touches[0].clientY).toFixed(0);
+        const bSqr = (weaponShipObj.tempEvent[0].clientX - e.touches[0].clientX).toFixed(0);
+        const indexVal = weaponShipObj.tempEvent[0].target.id.split('alienKey')[0];
+        const leftVal = weaponShipObj.newAlienObj[indexVal].left;
+        const lettButtXVal = e.touches[0].clientX;
+        const lightnin = (<Lightning xVal={leftVal} yVal={'Y'} note={note} lettButtXVal={lettButtXVal} cssFilter={colorCSS.cssFilter} hex={'#CACACA'} aSqr={aSqr} bSqr={bSqr} ></Lightning>);
+        setWeaponStateLetter({...weaponStateLetter, wubblesI: [wubbles, lightnin]})
         setTimeout(()=>{
             setWeaponStateLetter({...weaponStateLetter, wubblesI: []})
         },500)
