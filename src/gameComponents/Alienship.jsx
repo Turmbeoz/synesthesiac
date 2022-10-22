@@ -6,19 +6,22 @@ import '../App.css'
 import { useState, useEffect, useContext } from 'react';
 // import { DragDropContext } from 'react-beautiful-dnd';
 import HorizontalFlare from './HorizontalFlare';
-import { WeaponAndShipContext } from '../gameInfo/gameContext'
+import { WeaponAndShipContext } from '../gameInfo/gameContext';
+import Explosion from './Explosion.jsx'
 // Add a horizontal glow while you're holding the ship to play the notes any that are in its same y value
 
 // Add a state prop drill for a listeningFlare Component 
 function Alienship(props){
     let flare;
+    let explosion;
+    let ship;
     // Pass the left key in when the ship is created in the parent component
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
     const { newAlienObj } = weaponShipObj
     const [shipState, setShipState] = useState({
         left: props.left,
         top: 94,
-        height: 60,
+        height: 15,
         spinsSeconds: props.spinsSeconds,
         hit: props.hit,
         jumpCoeff: 1.5,
@@ -32,10 +35,55 @@ function Alienship(props){
         listeningHold: props.listeningHold,
         keyId: props.keyId,
         note: props.note,
-        cssFilterGRAY: `invert(${props.gray.invert}%) sepia(${props.gray.sepia}%) saturate(${props.gray.saturate}%) hue-rotate(${props.gray.hueRotate}) brightness(${props.gray.brightness}%) contrast(${props.gray.contrast}%)`,
-        cssFilterCOLOR: `invert(${props.color.invert}%) sepia(${props.color.sepia}%) saturate(${props.color.saturate}%) hue-rotate(${props.color.hueRotate}) brightness(${props.color.brightness}%) contrast(${props.color.contrast}%)`,
+        hitNotDead: props.hitNotDead,
     })
+    const [rattle, setRattle] = useState({        
+        coeff: 1.5,
+        adder: 0,
+        peaked: false, // will be +1 or -1
+        flipper: true,
+        mover: 12
+        })
+    function lightningStrike(){
+        // The ship is destroyed and a note is played
+        shipState.explode = true;
+    }
+    function hitOrMiss(hitInfo){
+        // Combine both hit funcs
+        if(!hitInfo){
+            return
+        }
+        if (hitInfo === "MISSED"){
+            nearMiss();
+            return
+        }
+        if (hitInfo === "DESTROYED"){
+            lightningStrike();
+            return
+        }
+    }
+    function nearMiss(){
+            if (rattle.mover <= 0){
+                rattle.mover = 12
+                setRattle({ ...rattle });
+                newAlienObj[props.index].struck = null
+                return
+            }
+            if (rattle.flipper){
+                shipState.left += rattle.mover
+                rattle.mover -= 0.5;
+                rattle.flipper = !rattle.flipper
+                setRattle({ ...rattle, mover: rattle.mover })
+    
+            }else{
+                shipState.left -= rattle.mover
+                rattle.mover -= 0.5;
+                rattle.flipper = !rattle.flipper
+                setRattle({ ...rattle, mover: rattle.mover })
+            }
 
+
+    }
     function touchVerify(touch){
         const leftVal = ((touch.clientX / window.screen.width)*100).toFixed(1);
         const topVal = ((touch.clientY / window.screen.height)*100).toFixed(1);
@@ -52,9 +100,9 @@ function Alienship(props){
         if (e.touches.length > 1){
             e.preventDefault();
         }
+        
         weaponShipObj.tempEvent = e.touches;
-        console.log(weaponShipObj.tempEvent)
-        console.log(e.touches)
+
         let boolChange = false;
         for (let i=0; i<e.touches.length; i++){
             if (touchVerify(e.touches[i])){
@@ -68,7 +116,6 @@ function Alienship(props){
             currAlien.listeningHold = true;
             currAlien.spinsSeconds = 1;
             newAlienObj.listening = props.note;
-            console.log(newAlienObj.listening)
             currAlien.hit = true;
             setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } })
             setShipState({ ...shipState });
@@ -122,9 +169,11 @@ function Alienship(props){
     
     function moveShip(){
         if (shipState.top >= 95){
+            // ADD the func or condition that you are HIT!!
             setShipState({ ...shipState });
             return;
         }
+        hitOrMiss(newAlienObj[props.index].struck)
         if (!newAlienObj[props.index].idle){
             if (shipState.touched){
                 shipState.jumpCoeff *= 1.25;
@@ -159,6 +208,7 @@ function Alienship(props){
                 newAlienObj[props.index].touched = true;
                 newAlienObj[props.index].idle = false;
                 newAlienObj[props.index].listeningHold = false;
+                shipState.jumpCoeff = -3.5;
 
                 setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj}})
 
@@ -182,41 +232,41 @@ function Alienship(props){
         }
 
         // Check if being hit and add animation / color (css for that pic) of shiny thingy / also change center of gravity for rotation animation
-        setShipState({...shipState });
+        
+        setShipState({ ...shipState });
         // Check if destroyed - animate destruction. Swap pics and
     }
+    ship = (<><div className='shrinker' onTouchStart={(e)=> newTouchStart(e)} onTouchMove={(e)=> newTouchMove(e)} onTouchEnd={(e)=> newTouchEnd(e)} id={shipState.keyId + '*'+'A'} style={{
+                position: 'absolute',
+                left: shipState.left + '%',
+                top: shipState.top + '%',
+                opacity: shipState.opacity + '%',
+                overscrollBehavior: 'none',
+            }}>
+                    <div className='flicker' >
+        <img className='forcefield' style={{
+            height: shipState.height + 'px',
+            animation: `rotation ${shipState.spinsSeconds}s infinite linear`,
+            overscrollBehavior: 'none'
+        }} src={blackdots} alt="ship" /></div>
+  </div></>)
     if (newAlienObj[props.index].listeningHold && newAlienObj[props.index].idle){
         flare = (<HorizontalFlare left={shipState.left - 80} height={400} top={shipState.top - 28}/>)
     }
-
+    if (shipState.explode){
+        explosion = (<Explosion left={shipState.left} top={shipState.top} splode={props.exploder}/>);
+        ship = null
+    }
     if (shipState.top > 95){
         const tempID = shipState.keyId.split("alienKeyID");
         weaponShipObj.deadOrDestroyedIDs.add(tempID[0])
         // setWeaponShipObj({...weaponShipObj });
         // return;
     }
-    
     return (
-        
-        <div className='flares'>
-        {flare}  
-        <div className='shrinker' onTouchStart={(e)=> newTouchStart(e)} onTouchMove={(e)=> newTouchMove(e)} onTouchEnd={(e)=> newTouchEnd(e)} id={shipState.keyId + '*'+'A'} style={{
-            position: 'absolute',
-            left: shipState.left + '%',
-            top: shipState.top + '%',
-            opacity: shipState.opacity + '%',
-            overscrollBehavior: 'none',
-            filter: shipState.cssFilter
-          }}>
-            
-        <div className='flicker' >
-            <img className='forcefield' style={{
-                height: shipState.height + 'px',
-                animation: `rotation ${shipState.spinsSeconds}s infinite linear`,
-                overscrollBehavior: 'none'
-            }} src={blackdots} alt="ship" />
-        </div>
-      </div>
+        <div >
+        {flare}  {explosion}
+            {ship}
       </div>
     )
 }

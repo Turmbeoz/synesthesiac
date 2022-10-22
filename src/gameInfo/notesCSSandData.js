@@ -1,27 +1,55 @@
+import lightninA from '../assets/lightning_colors/lightninBOTHENDS_A.png';
+import lightninAsBf from '../assets/lightning_colors/lightninBOTHENDS_AsBf.png';
+import lightninB from '../assets/lightning_colors/lightninBOTHENDS_B.png';
+import lightninC from '../assets/lightning_colors/lightninBOTHENDS_C.png';
+import lightninCsDf from '../assets/lightning_colors/lightninBOTHENDS_CsDf.png';
+import lightninD from '../assets/lightning_colors/lightninBOTHENDS_D.png';
+import lightninDsEf from '../assets/lightning_colors/lightninBOTHENDS_A.png';
+import lightninE from '../assets/lightning_colors/lightninBOTHENDS_E.png';
+import lightninF from '../assets/lightning_colors/lightninBOTHENDS_F.png';
+import lightninFsGf from '../assets/lightning_colors/lightninBOTHENDS_FsGf.png';
+import lightninG from '../assets/lightning_colors/lightninBOTHENDS_G.png';
+import lightninGsAf from '../assets/lightning_colors/lightninBOTHENDS_GsAf.png';
+import lightninBW from '../assets/lightning_colors/lightninBOTHENDSBW.png';
+import splosion from '../assets/explosions/splosionGRAY.png';
+
+import splosionA from "../assets/explosions/splosionA.png"
+import splosionB from "../assets/explosions/splosionB.png"
+import splosionC from "../assets/explosions/splosionC.png"
+import splosionD from "../assets/explosions/splosionD.png"
+import splosionE from "../assets/explosions/splosionE.png"
+import splosionF from "../assets/explosions/splosionF.png"
+import splosionG from "../assets/explosions/splosionG.png"
+import splosionGsAf from "../assets/explosions/splosionGsAf.png"
+import splosionFsGf from "../assets/explosions/splosionFsGf.png"
+import splosionDsEf from "../assets/explosions/splosionDsEf.png"
+import splosionCsDf from "../assets/explosions/splosionCsDf.png"
+import splosionAsBf from "../assets/explosions/splosionAsBf.png"
+
 const notesCSSandData = {
-    a: {stringVer: 'A', cssFilter: { invert: 14, sepia: 83, saturate: 7052, hueRotate: 359, brightness: 92, contrast: 118 }, hex: '#ff0000' },
+    a: {stringVer: 'A', png: lightninA, hex: '#ff0000', exploder: splosionA },
 
-    aSharpBFlat: {stringVer: 'A#/Bb', cssFilter: { invert: 40, sepia: 76, saturate: 4805, hueRotate: 360, brightness: 100, contrast: 107 }, hex: '#ff4500' },
+    aSharpBFlat: {stringVer: 'A#/Bb', png: lightninAsBf, hex: '#ff4500', exploder: splosionAsBf },
 
-    b: {stringVer: 'B', cssFilter: { invert: 67, sepia: 38, saturate: 2827, hueRotate: 359, brightness: 101, contrast: 107 }, hex: '#ffa500' },
+    b: {stringVer: 'B', png: lightninB, hex: '#ffa500', exploder: splosionB },
 
-    c: {stringVer: 'C', cssFilter: { invert: 75, sepia: 76, saturate: 675, hueRotate: 325, brightness: 101, contrast: 101 }, hex: '#ffff00' },
+    c: {stringVer: 'C', png: lightninC, hex: '#ffff00', exploder: splosionC },
 
-    cSharpDflat: {stringVer: 'C#/Db', cssFilter: { invert: 88, sepia: 58, saturate: 765, hueRotate: 1, brightness: 106, contrast: 104 }, hex: '#9acd32' },
+    cSharpDflat: {stringVer: 'C#/Db', png: lightninCsDf, hex: '#9acd32', exploder: splosionCsDf },
 
-    d: {stringVer: 'D', cssFilter: { invert: 72, sepia: 8, saturate: 3195, hueRotate: 38, brightness:101, contrast:91 }, hex: '#1BFA01' },
+    d: {stringVer: 'D', png: lightninD, hex: '#1BFA01', exploder: splosionD },
 
-    dSharpEflat: {stringVer: 'D#/Eb', cssFilter: { invert: 22, sepia: 96, saturate: 2118, hueRotate: 99, brightness: 101, contrast: 103 }, hex: '#008000' },
+    dSharpEflat: {stringVer: 'D#/Eb', png: lightninDsEf, hex: '#008000', exploder: splosionDsEf },
 
-    e: {stringVer: 'E', cssFilter: { invert: 58, sepia: 61, saturate: 3754, hueRotate: 137, brightness: 99, contrast: 91 }, hex: '#0cbaa6' },
+    e: {stringVer: 'E', png: lightninE, hex: '#0cbaa6', exploder: splosionE },
 
-    f: {stringVer: 'F', cssFilter: { invert: 10, sepia: 100, saturate: 5057, hueRotate: 244, brightness: 99, contrast: 147 }, hex: '#0000ff' },
+    f: {stringVer: 'F', png: lightninF, hex: '#0000ff', exploder: splosionF },
 
-    fSharpGflat: {stringVer: 'F#/Gb', cssFilter: {  invert: 19, sepia: 91, saturate: 4530, hueRotate: 269, brightness: 93, contrast: 91 }, hex: '#8a2be2' },
+    fSharpGflat: {stringVer: 'F#/Gb', png: lightninFsGf, hex: '#8a2be2', exploder: splosionFsGf },
 
-    g: {stringVer: 'G', cssFilter: { invert: 72, sepia: 51, saturate: 1190, hueRotate: 239, brightness: 96, contrast: 95 }, hex: '#ee82ee' },
+    g: {stringVer: 'G', png: lightninG, hex: '#ee82ee', exploder: splosionG },
 
-    gSharpAflat: { stringVer: 'G#/Ab', cssFilter: { invert: 6, sepia: 94, saturate: 6084, hueRotate: 298, brightness: 114, contrast: 104 }, hex: '#800080' },
+    gSharpAflat: { stringVer: 'G#/Ab', png: lightninGsAf, hex: '#800080', exploder: splosionGsAf },
     
     defaultGray: { hex: '#CACACA'},
 

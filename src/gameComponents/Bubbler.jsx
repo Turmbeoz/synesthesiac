@@ -1,22 +1,9 @@
 import React from 'react'
-import bubbleImg from '../assets/phaserGlow.png';
-
-
-
-
-
 
 export default function Bubbler(props) {
   const { hex } = props;
-  console.log(hex, " : The HEX")
-  // const styles = {
-  //   touchAction: 'none',
-  //   opacity: 95,
-  //   pointerEvents: 'none',
-  //   bottom: '-20%',
-  //   position: 'fixed',
-  //   'WebkitFilter': `invert(${stylesCSS.invert}%) sepia(${stylesCSS.sepia}%) saturate(${stylesCSS.saturate}%) hue-rotate(${stylesCSS.hueRotate}deg) brightness(${stylesCSS.brightness}%) contrast(${stylesCSS.contrast}%)`
-  //   }
+  // console.log(hex, " : The HEX")
+
     const stylesP = {
     touchAction: 'none',
     width: '12%',

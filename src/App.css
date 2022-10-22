@@ -53,6 +53,8 @@
   align-items: center;
   pointer-events: none;
   user-select: none;
+  /* background-color: red;
+  border-radius: 50%; */
 
   -webkit-animation: flickerAnimationShip 3s infinite;
   -moz-animation: flickerAnimationShip 3s infinite;
@@ -363,4 +365,92 @@ canvas {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.splosion-anim{
+  width: 128px;
+  height: 128px;
+  position: absolute;
+  transform: scale(2); /* translate(-50%, -50%) */
+  /* left: 50%;
+  top: 50%; */
+  background: url("./assets/explosions/splosionGRAY.png");
+  animation: splode 0.9s steps(1);
+}
+
+@keyframes splode {
+  0% {
+    background-position: 640px 0px;
+  }
+  5% {
+    background-position: 512px 0px;
+  }
+  10% {
+    background-position: 384px 0px;
+  }
+  15% {
+    background-position: 256px 0px;
+  }
+  20% {
+    background-position: 128px 0px;
+  }
+
+
+
+  25% {
+    background-position: 640px -128px;
+  }
+  30% {
+    background-position: 512px -128px;
+  }
+  35% {
+    background-position: 384px -128px;
+  }
+  40% {
+    background-position: 256px -128px;
+  }
+  45% {
+    background-position: 128px -128px;
+  }
+
+
+  50% {
+    background-position: 640px -256px;
+  }
+  55% {
+    background-position: 512px -256px;
+  }
+  60% {
+    background-position: 384px -256px;
+  }
+  65% {
+    background-position: 256px -256px;
+  }
+  70% {
+    background-position: 128px -256px;
+  }
+
+
+
+  75% {
+    background-position: 640px -384px;
+  }
+  80% {
+    background-position: 512px -384px;
+  }
+  85% {
+    background-position: 384px -384px;
+  }
+  90% {
+    background-position: 256px -384px;
+  }
+  95% {
+    background-position: 128px -384px;
+  }
+
+  100% {
+    background-position: 512px -512px;
+  }
+
+
 }

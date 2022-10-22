@@ -3,8 +3,7 @@ import Bubbler from './Bubbler';
 import Lightning from './LightningComponent';
 import { useState, useEffect, useContext } from "react";
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
-
-
+import lightninBW from '../assets/lightning_colors/lightninBOTHENDSBW.png'
 
 
 
@@ -14,52 +13,53 @@ function LetterButtonSquare(props){
     const active = '#CACACA';
     const inactive = '#090909';
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
-    const { note, colorCSS, gray } = props;
+    const { newAlienObj } = weaponShipObj;
+    const { note, colorCSS, gray, png } = props;
     const [buttonsState, setButtonState] = useState({currColor: '#CACACA'})
     const [weaponStateLetter, setWeaponStateLetter] = useState({
         wubblesI:[]
     })
     const cssEffect = useEffect(()=>{
-        console.log("HUH")
     }, [buttonsState])
 
     function shoot(e){
-        console.log('Shoot that mofo!!!');
-        console.log(e.touches);
-        console.log(weaponShipObj.tempEvent);
+
         // Uncomment later after passing the active or not prop for the buttons
         if (!props.active){
             return;
         }
         const screenHeight = window.screen.height;
+        const indexVal = weaponShipObj.tempEvent[0].target.id.split('alienKey')[0];
         if (e.touches.length > 1){
             e.preventDefault();
         }
-        console.log("They aint listenen")
         let hexValForLightnin = '#CACACA';
-        const theysListenin = (weaponShipObj.newAlienObj.listening && note === weaponShipObj.newAlienObj.listening);
+        const theysListenin = (newAlienObj.listening && note === newAlienObj.listening);
         if (theysListenin){
-            console.log("Theys the same!!");
             setButtonState({currColor: props.colorCSS.hex});
-            // INSERT THE NEW LIGHTNING PROP HERE 10/05/22
             hexValForLightnin = props.colorCSS.hex;
+            newAlienObj[indexVal].struck = "DESTROYED"
+            setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj, indexVal: {...newAlienObj[indexVal] }}})
 
         }else{
+            newAlienObj[indexVal].struck = "MISSED"
+            setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj, indexVal: {...newAlienObj[indexVal] }}})
             setButtonState({currColor: '#CACACA'});
+            
         }
+
         const wubbles = (<Bubbler key={'00'} hex={theysListenin? props.colorCSS.hex : "#CACACA"}></Bubbler>);
 
-        // 10/6 Create the timeout that the lightning will take up. It's brightness flickering randomly.
         const aSqr = (weaponShipObj.tempEvent[0].clientY - e.touches[0].clientY).toFixed(0);
         const bSqr = (weaponShipObj.tempEvent[0].clientX - e.touches[0].clientX).toFixed(0);
-        const indexVal = weaponShipObj.tempEvent[0].target.id.split('alienKey')[0];
+        
         const leftVal = weaponShipObj.newAlienObj[indexVal].left;
         const lettButtXVal = e.touches[0].clientX;
-        const lightnin = (<Lightning xVal={leftVal} yVal={'Y'} note={note} lettButtXVal={lettButtXVal} cssFilter={colorCSS.cssFilter} hex={'#CACACA'} aSqr={aSqr} bSqr={bSqr} ></Lightning>);
+        const lightnin = (<Lightning png={theysListenin? png : lightninBW} xVal={leftVal} yVal={'Y'} note={note} lettButtXVal={lettButtXVal} cssFilter={colorCSS.cssFilter} hex={'#CACACA'} aSqr={aSqr} bSqr={bSqr} ></Lightning>);
         setWeaponStateLetter({...weaponStateLetter, wubblesI: [wubbles, lightnin]})
         setTimeout(()=>{
             setWeaponStateLetter({...weaponStateLetter, wubblesI: []})
-        },500)
+        }, 600)
     
     }
     function shootEnd(e){
@@ -67,8 +67,7 @@ function LetterButtonSquare(props){
             return;
         }
         setTimeout(()=>{
-            // const active = props.colorCSS.hex;
-            // const inactive = props.gray.hex; 
+
             const active = '#CACACA';
             const inactive = '#090909';
             const cssStat = props.active? active : inactive
@@ -101,4 +100,3 @@ function LetterButtonSquare(props){
 
 
 export default LetterButtonSquare;
-// invert(99%) sepia(80%) saturate(77%) hue-rotate(228deg) brightness(114%) contrast(96%)

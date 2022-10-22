@@ -9,14 +9,11 @@ import notesCSSandData from './gameInfo/notesCSSandData.js';
 import keys from './gameInfo/keys';
 import Alienship from './gameComponents/Alienship';
 // const villainsShipsOLD = [<Alienship left={25} key={'0'} keyId={'0'} note={'A'}></Alienship>]
-const SimplexNoise = require('./gameInfo/simplexNoise.js');
-console.log(window.SimplexNoise);
-console.log(window.SimplexNoise.prototype.noise2D());
-console.log(window.SimplexNoise.prototype.grad3);
+import splosion from './assets/explosions/splosionGRAY.png'
 
 function App() {
   const buttonWidth = ((window.screen.width) / 7).toFixed(2);
-  const AbuttonCenter = -125;
+  // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
   const currentKey = keys.Ckey;
   const numOfVillains = 20;
@@ -33,13 +30,13 @@ function App() {
   const villainsShipsArr = [];
   const newAlienObj = { listening: null };
   for (let i=0; i<numOfVillains; i++){
-    newAlienObj[i] = { left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false }
+    newAlienObj[i] = { left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false, struck: null, exploder: villainKeyNotesArr[i].exploder }
   }
   const [weaponShipObj, setWeaponShipObj] = useState({ deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, tempEvent: null, lightningCom: null });
   return (
     <div className="wrapper" id='canvas'>
       <canvas id='c'></canvas>
-      <WeaponAndShipContext.Provider value={{weaponShipObj, setWeaponShipObj}}>
+      <WeaponAndShipContext.Provider value={{ weaponShipObj, setWeaponShipObj }}>
       <WeaponSelector notes={currentKey} aliensArray={weaponShipObj.villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
       </WeaponAndShipContext.Provider>
         <div className='header'>
