@@ -1,12 +1,18 @@
-// import 'react';
-// import { useState, useEffect, useContext } from 'react';
+import 'react';
+import React, { useState } from 'react';
 
 
 
 function Explosion(props){
+    const [classCSS, setClassCSS] = useState("splosion-anim")
+    if (props.doneSplode === "DESTROYED"){
+        setTimeout(()=>{
+            setClassCSS("invisibleShip")
+        },900)
+    }
     return (
-        <div className='splosion-anim' style={{
-            background: `url(${props.splode})`,
+        <div className={classCSS} style={{
+            background: classCSS === "splosion-anim"? `url(${props.splode})`: 'none',
             left: `${props.left - 8}%`,
             top: `${props.top - 8}%`
         }}></div>

@@ -352,6 +352,7 @@
   font-family: Estrogen-YJL;
   font-size: 60px;
   transition: all 0.5s ease;
+  user-select: none;
 
 }
 
@@ -367,6 +368,15 @@ canvas {
   left: 0;
 }
 
+.sharpOrFlat{
+  box-shadow: 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+  color: rgb(214, 214, 214);
+  border-radius: 15%;
+  height: 55%;
+  padding: 8px;
+  user-select: none;
+}
+
 .splosion-anim{
   width: 128px;
   height: 128px;
@@ -377,6 +387,195 @@ canvas {
   background: url("./assets/explosions/splosionGRAY.png");
   animation: splode 0.9s steps(1);
 }
+
+
+.btn-sharp-flatL {
+
+	background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+}
+.btn-sharp-flatR {
+
+	background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+}
+
+button:hover {
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #222, inset -5px -5px 10px #444;
+	font-size: 15px;
+	transition: 500ms;
+}
+
+button:focus {
+	outline: none;
+}
+
+
+
+
+.btn-sharp-flat:hover {
+	color: #ff81fb;
+	text-shadow: 0px 0px 10px #ff81fb;
+  
+}
+
+
+
+
+
+.btn-sharp-flatA:hover {
+	color: #ff0000;
+	text-shadow: 0px 0px 10px #ff0000;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatAB:hover {
+	color: #ff4500;
+	text-shadow: 0px 0px 10px #ff4500;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatB:hover {
+	color: #ffa500;
+	text-shadow: 0px 0px 10px #ffa500;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatC:hover {
+	color: #ffff00;
+	text-shadow: 0px 0px 10px #ffff00;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatCD:hover {
+	color: #9acd32;
+	text-shadow: 0px 0px 10px #9acd32;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatD:hover {
+	color: #1BFA01;
+	text-shadow: 0px 0px 10px #1BFA01;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatDE:hover {
+	color: #008000;
+	text-shadow: 0px 0px 10px #008000;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatE:hover {
+	color: #0cbaa6;
+	text-shadow: 0px 0px 10px #0cbaa6;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatF:hover {
+	color: #0000ff;
+	text-shadow: 0px 0px 10px #0000ff;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatFG:hover {
+	color: #8a2be2;
+	text-shadow: 0px 0px 10px #8a2be2;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatG:hover {
+	color: #ee82ee;
+	text-shadow: 0px 0px 10px #ee82ee;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+.btn-sharp-flatGA:hover {
+	color: #800080;
+	text-shadow: 0px 0px 10px #800080;
+  background: #333;
+	border: none;
+	border-radius: 10px;
+	box-shadow: -5px -5px 15px #444, 5px 5px 15px #222, inset 5px 5px 10px #444, inset -5px -5px 10px #222;
+	font-size: 16px;
+  transition: 500ms;
+}
+
+.note-badge{
+  position: absolute;
+  height: 30px;
+  border-radius: 20%;
+  background-color: #444;
+  user-select: none;
+  pointer-events: none;
+  touch-action: none;
+  font-family: 'Times New Roman', Times, serif;
+  
+}
+/* .btn-sharp-flat:hover {
+		color: #93f071;
+	text-shadow: 0px 0px 10px #93f071;
+}
+
+.btn-sharp-flat:hover {
+	color: #71b7f0;
+	text-shadow: 0px 0px 10px #71b7f0;
+}
+
+.btn-sharp-flat:hover {
+	color: #b971f0;
+	text-shadow: 0px 0px 10px #b971f0;
+} */
+
 
 @keyframes splode {
   0% {

@@ -29,27 +29,27 @@ import splosionAsBf from "../assets/explosions/splosionAsBf.png"
 const notesCSSandData = {
     a: {stringVer: 'A', png: lightninA, hex: '#ff0000', exploder: splosionA },
 
-    aSharpBFlat: {stringVer: 'A#/Bb', png: lightninAsBf, hex: '#ff4500', exploder: splosionAsBf },
+    aSharpBFlat: {stringVer: 'AB', png: lightninAsBf, hex: '#ff4500', exploder: splosionAsBf },
 
     b: {stringVer: 'B', png: lightninB, hex: '#ffa500', exploder: splosionB },
 
     c: {stringVer: 'C', png: lightninC, hex: '#ffff00', exploder: splosionC },
 
-    cSharpDflat: {stringVer: 'C#/Db', png: lightninCsDf, hex: '#9acd32', exploder: splosionCsDf },
+    cSharpDflat: {stringVer: 'CD', png: lightninCsDf, hex: '#9acd32', exploder: splosionCsDf },
 
     d: {stringVer: 'D', png: lightninD, hex: '#1BFA01', exploder: splosionD },
 
-    dSharpEflat: {stringVer: 'D#/Eb', png: lightninDsEf, hex: '#008000', exploder: splosionDsEf },
+    dSharpEflat: {stringVer: 'DE', png: lightninDsEf, hex: '#008000', exploder: splosionDsEf },
 
     e: {stringVer: 'E', png: lightninE, hex: '#0cbaa6', exploder: splosionE },
 
     f: {stringVer: 'F', png: lightninF, hex: '#0000ff', exploder: splosionF },
 
-    fSharpGflat: {stringVer: 'F#/Gb', png: lightninFsGf, hex: '#8a2be2', exploder: splosionFsGf },
+    fSharpGflat: {stringVer: 'FG', png: lightninFsGf, hex: '#8a2be2', exploder: splosionFsGf },
 
     g: {stringVer: 'G', png: lightninG, hex: '#ee82ee', exploder: splosionG },
 
-    gSharpAflat: { stringVer: 'G#/Ab', png: lightninGsAf, hex: '#800080', exploder: splosionGsAf },
+    gSharpAflat: { stringVer: 'GA', png: lightninGsAf, hex: '#800080', exploder: splosionGsAf },
     
     defaultGray: { hex: '#CACACA'},
 

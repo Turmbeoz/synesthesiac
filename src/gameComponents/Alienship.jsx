@@ -1,5 +1,5 @@
 // picture of hit ship and size properly
-
+import React from 'react'
 // find and import png of damages to ship - size properly and animate their destructsh
 import blackdots from '../assets/blackdots.png'
 import '../App.css'
@@ -59,6 +59,7 @@ function Alienship(props){
         }
         if (hitInfo === "DESTROYED"){
             lightningStrike();
+
             return
         }
     }
@@ -236,7 +237,8 @@ function Alienship(props){
         setShipState({ ...shipState });
         // Check if destroyed - animate destruction. Swap pics and
     }
-    ship = (<><div className='shrinker' onTouchStart={(e)=> newTouchStart(e)} onTouchMove={(e)=> newTouchMove(e)} onTouchEnd={(e)=> newTouchEnd(e)} id={shipState.keyId + '*'+'A'} style={{
+
+    ship = (newAlienObj[props.index].struck==="DESTROYED")? null : (<><div className='shrinker' onTouchStart={(e)=> newTouchStart(e)} onTouchMove={(e)=> newTouchMove(e)} onTouchEnd={(e)=> newTouchEnd(e)} id={shipState.keyId + '*'+'A'} style={{
                 position: 'absolute',
                 left: shipState.left + '%',
                 top: shipState.top + '%',
@@ -254,8 +256,7 @@ function Alienship(props){
         flare = (<HorizontalFlare left={shipState.left - 80} height={400} top={shipState.top - 28}/>)
     }
     if (shipState.explode){
-        explosion = (<Explosion left={shipState.left} top={shipState.top} splode={props.exploder}/>);
-        ship = null
+        explosion = (<Explosion doneSplode={newAlienObj[props.index].struck} left={shipState.left} top={shipState.top} splode={props.exploder}/>);
     }
     if (shipState.top > 95){
         const tempID = shipState.keyId.split("alienKeyID");
@@ -263,6 +264,7 @@ function Alienship(props){
         // setWeaponShipObj({...weaponShipObj });
         // return;
     }
+    
     return (
         <div >
         {flare}  {explosion}

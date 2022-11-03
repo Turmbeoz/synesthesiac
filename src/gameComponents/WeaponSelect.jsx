@@ -1,6 +1,6 @@
 import LetterButtonSquare from './LetterButton';
 import Bubbler from './Bubbler';
-import { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import useInterval from '../gameInfo/useInterval';
 import Alienship from './Alienship';
@@ -50,6 +50,7 @@ function WeaponSelector(props){
         // Create LBS dynamically
         const letterButton = <LetterButtonSquare png={notes[i].png} active={ keyShift[i] } note={ tempNOTES[i] } gray={keyShift[i]? activeGray : inactiveGray} colorCSS={notes[i]} delay={2500} listening={newAlienObj.listening} key={notes[i].stringVer+'lbs'} />
         weaponSreadArray.push(letterButton)
+        // console.log(notes[i])
     }
     return (
         <>

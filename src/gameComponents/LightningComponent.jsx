@@ -3,7 +3,7 @@
 
 function LightningComponent(props){
     // x , y , hexColor
-    const { hex, lineLength, aSqr, bSqr, xVal, lettButtXVal, note, cssFilter, png } = props;
+    const { hex, lineLength, aSqr, bSqr, xVal, lettButtXVal, note, png } = props;
     // Rootline is the height of the lightning in px
     const rootLine = (Math.sqrt((aSqr*aSqr)+(bSqr*bSqr))*1.08).toFixed(0);
     const width = (window.screen.width / 7).toFixed(0);
@@ -15,6 +15,7 @@ function LightningComponent(props){
     return  <div >
  
     <img src={png} style={{
+                pointerEvents: "none",
                 height: rootLine +'px',
                 bottom: '6%',        
                 opacity: "95%",
