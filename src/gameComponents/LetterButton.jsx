@@ -1,7 +1,7 @@
 import phaserGlow from '../assets/phaserGlow.png';
 import Bubbler from './Bubbler';
 import Lightning from './LightningComponent';
-import React, { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import lightninBW from '../assets/lightning_colors/lightninBOTHENDSBW.png'
 import { NoteBadgeSelect } from './NoteBadgeSelect';
@@ -16,14 +16,18 @@ function LetterButtonSquare(props){
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
     const { newAlienObj, buttonAlternates } = weaponShipObj;
     const { note, colorCSS, gray, png } = props;
-    const [buttonsState, setButtonState] = useState({currColor: '#CACACA', 0: colorCSS, 1: buttonAlternates.flat, 2: buttonAlternates.sharp })
+    const [buttonsState, setButtonState] = useState({currColor: '#CACACA' })
     const [weaponStateLetter, setWeaponStateLetter] = useState({
         wubblesI:[]
     })
+    const [lightninState, setLightninState] = useState({lightnin: null})
     const [noteModifier, setNoteModifier] = useState(null)
     const timerRef = useRef();
     const isLongPress = useRef(false);
     const closeSharpFlatSelect = useRef();
+    
+    const isHoldingNoteKey = useRef();
+    const isHoldingNoteKeyTimeout = useRef();
     
     useEffect(()=>{
         let handler = (e)=>{
@@ -43,103 +47,141 @@ function LetterButtonSquare(props){
     function noteModifierFunc(){
         return setNoteModifier(<NoteBadgeSelect buttonNoteInfo={buttonNoteInfo} classNAME={`btn-sharp-flat`} natural={colorCSS} flat={buttonAlternates[note].flat} noteButtonStr={note} sharp={buttonAlternates[note].sharp} />)
     }
-    // console.log(buttonNoteInfo.symbols[0])
     function noteModifierFuncOFF(e){
-        console.log(e.target.outerText);
         const x = ["♭", "#", "♮"];
         let xxx = {color: "CACACA"}
+        // ADD SOUNDS HERE for approx 500ms - all three ways - the sound of switching cannons
         if (e.target.outerText === "♮"){
-            let xxx = {color: buttonNoteInfo.active.hex}
+            xxx = {color: buttonNoteInfo.active.hex}
+            setButtonState({ currColor: colorCSS.hex })
             setButtonNoteInfo({ active: colorCSS, left: buttonAlternates[note].flat, right: buttonAlternates[note].sharp, symbols: ["♮", "♭", "#"]})
+            
         }
         if (e.target.outerText === "♭"){
-            let xxx = {color: buttonNoteInfo.left.hex}
+            xxx = {color: buttonNoteInfo.left.hex}
+            setButtonState({ currColor: buttonAlternates[note].flat.hex })
             setButtonNoteInfo({ active: buttonAlternates[note].flat, left: colorCSS, right: buttonAlternates[note].sharp, symbols: ["♭", "♮", "#"] });
             
         }
         if (e.target.outerText === "#"){
-            let xxx = {color: buttonNoteInfo.right.hex}
+            xxx = {color: buttonNoteInfo.right.hex}
+            setButtonState({ currColor: buttonAlternates[note].sharp.hex })
             setButtonNoteInfo({ active: buttonAlternates[note].sharp, left: buttonAlternates[note].flat, right: colorCSS, symbols: ["#", "♭", "♮"] })
             
         }
+        
         setNoteModifier(<NoteBadgeSelect stylesP={xxx} buttonNoteInfo={buttonNoteInfo} classNAME={`btn-sharp-flat`} natural={colorCSS} flat={buttonAlternates[note].flat} noteButtonStr={note} sharp={buttonAlternates[note].sharp}/>)
         // add into a setTimeout() for a small delay to the close
         setTimeout(() =>{
+            setButtonState({ currColor: "#CACACA" })
             setNoteModifier(null)
-        }, 400)
+        }, 500)
         return setNoteModifier(<NoteBadgeSelect buttonNoteInfo={buttonNoteInfo} classNAME={`btn-sharp-flat`} natural={colorCSS} flat={buttonAlternates[note].flat} noteButtonStr={note} sharp={buttonAlternates[note].sharp}/>)
 
     }
     function shoot(e){
-        console.log(props.colorCSS)
-        console.log(buttonAlternates[note]);
-        console.log(e.target.className);
-        if (e.target.className === "btn-sharp-flat") {
+        console.log("SHOOTIN")
+        if (e.target.className === "btn-sharp-flatL" || e.target.className === "btn-sharp-flatR") {
             noteModifierFuncOFF(e);
-            return
+            return;
         }
         // Uncomment later after passing the active or not prop for the buttons
         if (!props.active){
             return;
         }
-        const screenHeight = window.screen.height;
-        const indexVal = weaponShipObj.tempEvent[0].target.id.split('alienKey')[0];
+        
         if (e.touches.length > 1){
             e.preventDefault();
         }
-        let hexValForLightnin = '#CACACA';
-        const theysListenin = (newAlienObj.listening && note === newAlienObj.listening);
-        if (theysListenin){
-            setButtonState({currColor: props.colorCSS.hex});
-            hexValForLightnin = props.colorCSS.hex;
-            newAlienObj[indexVal].struck = "DESTROYED"
-            setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj, indexVal: {...newAlienObj[indexVal] }}})
 
-        }else{
-            newAlienObj[indexVal].struck = "MISSED"
-            setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj, indexVal: {...newAlienObj[indexVal] }}})
-            setButtonState({currColor: '#CACACA'});
-            
-        }
+        const handlerShootOrHold = () => {
+            const wubbles = (<Bubbler key={'00'} hex={"#CACACA"}></Bubbler>);
+            setWeaponStateLetter({...weaponStateLetter, wubblesI: wubbles});
 
-        const wubbles = (<Bubbler key={'00'} hex={theysListenin? props.colorCSS.hex : "#CACACA"}></Bubbler>);
-
-        const aSqr = (weaponShipObj.tempEvent[0].clientY - e.touches[0].clientY).toFixed(0);
-        const bSqr = (weaponShipObj.tempEvent[0].clientX - e.touches[0].clientX).toFixed(0);
-        
-        const leftVal = weaponShipObj.newAlienObj[indexVal].left;
-        const lettButtXVal = e.touches[0].clientX;
-        const lightnin = (<Lightning png={theysListenin? png : lightninBW} xVal={leftVal} yVal={'Y'} note={note} lettButtXVal={lettButtXVal} hex={'#CACACA'} aSqr={aSqr} bSqr={bSqr} ></Lightning>);
-        setWeaponStateLetter({...weaponStateLetter, wubblesI: [wubbles, lightnin]})
-        setTimeout(()=>{
-            setWeaponStateLetter({...weaponStateLetter, wubblesI: []})
-        }, 600)
-        if (!isLongPress.current){
-            timerRef.current = setTimeout(() => {
-                noteModifierFunc();
-                isLongPress.current = false;
+            if (!isLongPress.current){
+                isHoldingNoteKey.current = true
+                timerRef.current = setTimeout(() => {
+                    noteModifierFunc();
+                    isLongPress.current = false;
+                    isHoldingNoteKey.current = false
+                }, 600)
+            }
+            setTimeout(()=>{
+                setWeaponStateLetter({ ...weaponStateLetter, wubblesI: null })
             }, 600)
         }
 
+        handlerShootOrHold();
+        // if (!isHoldingNoteKey.current){
+        //     isHoldingNoteKeyTimeout.current = setTimeout(() => {
+                
+        //     }, 5);
+        // }
     
     }
-    // function shootMove(e){
-
-    //     return
-    // }
+    function shootMove(e){
+        clearTimeout(isHoldingNoteKeyTimeout.current)
+        console.log("move that body")
+        return
+    }
     function shootEnd(e){
+        clearTimeout(isHoldingNoteKeyTimeout.current)
         clearTimeout(timerRef.current)
         if (!props.active){
             return;
         }
-        setTimeout(()=>{
 
-            const active = '#CACACA';
-            const inactive = '#090909';
-            const cssStat = props.active? active : inactive
-            setButtonState({ currColor: cssStat })
+        const handlerLightnin = () => {
+            const indexVal = weaponShipObj.tempEvent[0].target.id.split('alienKey')[0];
+            const theysListenin = (newAlienObj.listening && buttonNoteInfo.active.stringVer === newAlienObj.listening);
+            if (theysListenin){
+                setButtonState({currColor: buttonNoteInfo.active.hex });
+                newAlienObj[indexVal].struck = "DESTROYED"
+                setTimeout(() => {
+                    newAlienObj[indexVal].removeFromScreen = true
+                }, 900)
+                
+                setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj, indexVal: {...newAlienObj[indexVal] }}});
+                setTimeout(()=>{
+                    setButtonState({ currColor: "#CACACA" });
+                }, 600)
     
-        }, 500)
+            }else{
+                newAlienObj[indexVal].struck = "MISSED"
+                setWeaponShipObj({...weaponShipObj, newAlienObj: {...newAlienObj, indexVal: {...newAlienObj[indexVal] }}})
+                
+            }
+    
+            const wubbles = (<Bubbler key={'00'} hex={theysListenin? buttonNoteInfo.active.stringVer : "#CACACA"}></Bubbler>);
+    
+            const aSqr = (weaponShipObj.tempEvent[0].clientY - e.changedTouches[0].clientY).toFixed(0);
+            const bSqr = (weaponShipObj.tempEvent[0].clientX - e.changedTouches[0].clientX).toFixed(0);
+            setTimeout(()=>{
+                const active = '#CACACA';
+                const inactive = '#090909';
+                const cssStat = props.active? active : inactive
+                setButtonState({ currColor: cssStat })
+        
+            }, 500)
+            const leftVal = weaponShipObj.newAlienObj[indexVal].left;
+            const lettButtXVal = e.changedTouches[0].clientX;
+            const lightnin = (<Lightning png={theysListenin? buttonNoteInfo.active.png : lightninBW} xVal={leftVal} yVal={'Y'} note={note} lettButtXVal={lettButtXVal} hex={'#CACACA'} aSqr={aSqr} bSqr={bSqr} ></Lightning>);
+            setLightninState({lightnin: lightnin})
+            setWeaponStateLetter({ wubblesI: wubbles })
+            setTimeout(()=>{
+                setLightninState({lightnin: null})
+                setWeaponStateLetter({ wubblesI: null })
+            }, 600)
+
+
+    
+        }
+        if(isHoldingNoteKey.current === true){
+            handlerLightnin();
+        }
+        
+
+
     }
     const noteBadge = (buttonNoteInfo.symbols[0] === "♮")? null : (<div className='note-badge' style={{
         position: "absolute",
@@ -153,10 +195,9 @@ function LetterButtonSquare(props){
         pointerEvents: "none",
 
     }}>{buttonNoteInfo.symbols[0]}</div>)
-    // console.log(buttonNoteInfo.active)
     return (
         
-        <div ref={closeSharpFlatSelect} className="letterbutton" onTouchStart={(e)=> shoot(e)} onTouchEnd={(e)=> shootEnd(e)}>
+        <div ref={closeSharpFlatSelect} className="letterbutton" onTouchStart={(e)=> shoot(e)} onTouchMove={()=> shootMove()} onTouchEnd={(e)=> shootEnd(e)}>
             {weaponStateLetter.wubblesI}
             
             <h1 className='buttonTEXT' style={{
@@ -173,6 +214,7 @@ function LetterButtonSquare(props){
             </h1>    
             {noteModifier}
             {noteBadge}
+            {lightninState.lightnin}
             
         </div>
         

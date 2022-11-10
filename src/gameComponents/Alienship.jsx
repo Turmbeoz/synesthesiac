@@ -1,13 +1,16 @@
 // picture of hit ship and size properly
-import React from 'react'
 // find and import png of damages to ship - size properly and animate their destructsh
 import blackdots from '../assets/blackdots.png'
 import '../App.css'
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 // import { DragDropContext } from 'react-beautiful-dnd';
 import HorizontalFlare from './HorizontalFlare';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
+import ReactHowler from 'react-howler'
 import Explosion from './Explosion.jsx'
+
+// Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6288">Pixabay</a>
+
 // Add a horizontal glow while you're holding the ship to play the notes any that are in its same y value
 
 // Add a state prop drill for a listeningFlare Component 
@@ -15,9 +18,12 @@ function Alienship(props){
     let flare;
     let explosion;
     let ship;
+    let glassShatterJSX;
     // Pass the left key in when the ship is created in the parent component
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
-    const { newAlienObj } = weaponShipObj
+    const { newAlienObj } = weaponShipObj;
+    const deadRef = useRef();
+    const listenerRefAudio = useRef(false);
     const [shipState, setShipState] = useState({
         left: props.left,
         top: 94,
@@ -28,7 +34,7 @@ function Alienship(props){
         frameRate: 40,
         touched: props.touched,
         idle: props.idle,
-        idleArray: Array.from({length: 5}, () => Math.floor(Math.random() * 70)),
+        idleArray: Array.from({ length: 5 }, () => Math.floor(Math.random() * 70)),
         idleCount: 45,
         opacity: 90,
         leftOrRight: Math.random() < 0.5 ? -1 : 1,
@@ -37,6 +43,34 @@ function Alienship(props){
         note: props.note,
         hitNotDead: props.hitNotDead,
     })
+    // const audioElem = useRef(new Audio(cListener));
+
+
+
+    // const sound = new Howl({
+    //     src: [cListener],
+    //     preload: true,
+    //     autoplay: false
+    // })
+    // Howler.volume(0.5);
+
+
+
+    // useEffect(()=>{
+    //     console.log("we listenen ahhhh yooooooo")
+    //     // console.log(sound)
+    //     if (shipState.listeningHold){
+            
+    //         // sound.play()
+    //     }else{
+    //         console.log("NOT listenen ahhhh big dowg!!")
+    //         // sound.pause();
+
+    //     }
+    // }, [shipState.listeningHold])
+
+
+    // Alien ship is struck but its the wrong one - ship rattles
     const [rattle, setRattle] = useState({        
         coeff: 1.5,
         adder: 0,
@@ -59,7 +93,6 @@ function Alienship(props){
         }
         if (hitInfo === "DESTROYED"){
             lightningStrike();
-
             return
         }
     }
@@ -84,6 +117,12 @@ function Alienship(props){
             }
 
 
+    }
+    // function playAudio(){
+    //     new Audio(cListener).play()
+    // }
+    function stopAudio(){
+        
     }
     function touchVerify(touch){
         const leftVal = ((touch.clientX / window.screen.width)*100).toFixed(1);
@@ -111,6 +150,7 @@ function Alienship(props){
             }
         }
         if (boolChange){
+            // playAudio();
             const currAlien = newAlienObj[props.index];
             currAlien.touched = true;
             currAlien.idle = true;
@@ -120,6 +160,9 @@ function Alienship(props){
             currAlien.hit = true;
             setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } })
             setShipState({ ...shipState });
+            
+
+        }else{
         }
 
     }
@@ -134,9 +177,9 @@ function Alienship(props){
             if (touchVerify(touch)){
                 stillTouchingBool = true;
             }
-
         }
         if (!stillTouchingBool){
+            console.log("No LOnger LisTenen")
             const currAlien = newAlienObj[props.index];
             currAlien.listeningHold = false;
             newAlienObj.listening = null;
@@ -150,9 +193,23 @@ function Alienship(props){
         if(e.touches.length > 1){
             e.preventDefault();
         }
+        console.log("No LOnger LisTenen")
+
         const currAlien = newAlienObj[props.index];
         currAlien.listeningHold = false;
         setWeaponShipObj({ ...weaponShipObj, newAlienObj: { ...newAlienObj, num: currAlien } });
+        
+
+    }
+    function explodeInYaFace(){
+        // Does damage to player
+        if(!(deadRef.current)){
+            console.log("YOU SUNK MY BATTLESHIP");
+            deadRef.current = true;
+            // 11/ 7 - make the glass shatter!!!
+            setWeaponShipObj({...weaponShipObj, droneLandsAndExplodes: true });
+        }
+        
 
     }
 
@@ -168,9 +225,12 @@ function Alienship(props){
       }, []);
 
     
+
     function moveShip(){
         if (shipState.top >= 95){
             // ADD the func or condition that you are HIT!!
+            glassShatterJSX = explodeInYaFace();
+            // shipState.explode = true
             setShipState({ ...shipState });
             return;
         }
@@ -252,23 +312,24 @@ function Alienship(props){
             overscrollBehavior: 'none'
         }} src={blackdots} alt="ship" /></div>
   </div></>)
-    if (newAlienObj[props.index].listeningHold && newAlienObj[props.index].idle){
+    if (newAlienObj[props.index].struck != "DESTROYED" && newAlienObj[props.index].listeningHold && newAlienObj[props.index].idle){
         flare = (<HorizontalFlare left={shipState.left - 80} height={400} top={shipState.top - 28}/>)
     }
     if (shipState.explode){
         explosion = (<Explosion doneSplode={newAlienObj[props.index].struck} left={shipState.left} top={shipState.top} splode={props.exploder}/>);
     }
     if (shipState.top > 95){
-        const tempID = shipState.keyId.split("alienKeyID");
-        weaponShipObj.deadOrDestroyedIDs.add(tempID[0])
+        // const tempID = shipState.keyId.split("alienKeyID");
+        // weaponShipObj.deadOrDestroyedIDs.add(tempID[0])
         // setWeaponShipObj({...weaponShipObj });
         // return;
     }
-    
     return (
         <div >
+            <ReactHowler src={props.listenerMP3} seek={0} playing={newAlienObj[props.index].listeningHold} html5={true} preload={true} volume={0.15}/>
         {flare}  {explosion}
             {ship}
+          
       </div>
     )
 }

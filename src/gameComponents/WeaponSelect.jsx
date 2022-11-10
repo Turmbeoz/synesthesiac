@@ -1,11 +1,13 @@
 import LetterButtonSquare from './LetterButton';
 import Bubbler from './Bubbler';
-import React, { useState, useContext, useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import useInterval from '../gameInfo/useInterval';
 import Alienship from './Alienship';
 import notesCSSandData from '../gameInfo/notesCSSandData';
-
+import cracks1 from '../assets/glass_shatters/broken-glass-effect-transparent-png-11.png'
+import cracks2 from '../assets/glass_shatters/cracks.png'
+import cracks3 from '../assets/glass_shatters/cracked-glass-effect-png-11552156306eklc2wuros.png'
 
 function WeaponSelector(props){
     const { bubbleCssPos, notes } = props;
@@ -15,10 +17,8 @@ function WeaponSelector(props){
     const { newAlienObj, numOfVillains } = weaponShipObj;
     // Save note and state of ship being listened to.
     const screenHeight = window.screen.height;
-    // const weaponButtonRef = useRef({
-    //     0: {colorCSS: notes[0], active: true, image: A, }
-    // })
-    const [weaponArray, setWeaponArray] = useState({ arr: [] });
+    const [glass, setGlass] = useState({ currGlass: null, coeff: 1 })
+
     const [slice, setSlice] = useState({ left: 0, right: 1 });
     function runTheInterval(){
         const difference = slice.right - slice.left;
@@ -35,10 +35,38 @@ function WeaponSelector(props){
         })
     }
     const interValue = useInterval(runTheInterval, 4000);
+    function makeCracks(){
+        console.log("we makin cracks!!!");
+        let glassShatterJSX = (<img src={cracks3} className="cracks1" style={{
+            position: "absolute",
+            height: "100%",
+            userSelect: "none",
+            pointerEvents: "none",
+            
+               
+          }} bgproperties="fixed"  alt="cracks" />);
+        setGlass({currGlass: glassShatterJSX});
+        setTimeout(() => {
+            setGlass({ currGlass: null })
+        }, 3500);
+    
+    }
+    useEffect(() => {
+        if (weaponShipObj.droneLandsAndExplodes){
+            makeCracks();
+            setWeaponShipObj({ ...weaponShipObj, droneLandsAndExplodes: null })
+        }else{
+            return
+        }
+    }, [weaponShipObj.droneLandsAndExplodes])
+
+
+    
     const liveOnScreenNEW = [];
     for (let i=slice.left; i<slice.right; i++){
-        const newGuy = <Alienship exploder={newAlienObj[i].exploder} left={ newAlienObj[i].left } note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } index={newAlienObj[i].index} idle={newAlienObj[i].idle} touched={newAlienObj[i].touched} listeningHold={newAlienObj[i].listeningHold} hitNotDead={newAlienObj[i].hitNotDead}></Alienship>
+        const newGuy = newAlienObj[i].removeFromScreen? null : <Alienship listenerMP3={newAlienObj[i].listenerMP3} exploder={newAlienObj[i].exploder} left={ newAlienObj[i].left } note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } index={newAlienObj[i].index} idle={newAlienObj[i].idle} touched={newAlienObj[i].touched} listeningHold={newAlienObj[i].listeningHold} hitNotDead={newAlienObj[i].hitNotDead}></Alienship>
         liveOnScreenNEW.push(newGuy)
+        
     }
     const keyShift = [true, true, true, true, true, true, true];
     const activeGray = '#CACACA';
@@ -50,14 +78,15 @@ function WeaponSelector(props){
         // Create LBS dynamically
         const letterButton = <LetterButtonSquare png={notes[i].png} active={ keyShift[i] } note={ tempNOTES[i] } gray={keyShift[i]? activeGray : inactiveGray} colorCSS={notes[i]} delay={2500} listening={newAlienObj.listening} key={notes[i].stringVer+'lbs'} />
         weaponSreadArray.push(letterButton)
-        // console.log(notes[i])
     }
+
     return (
         <>
             {liveOnScreenNEW}
-            {weaponArray.arr}
+            {glass.currGlass}
         <div className="shipmetal" >
         {weaponSreadArray}
+        
         </div>
         
         </>

@@ -19,7 +19,7 @@ const keys = {
 const keysORDERED = {
     Ckey: [ c, d, e, f, g, a, b ],
     Dkey: [d, e, fSharpGflat, g, a, b, cSharpDflat],
-    EKey: [e, fSharpGflat, gSharpAflat, a, b, cSharpDflat, dSharpEflat],
+    Ekey: [e, fSharpGflat, gSharpAflat, a, b, cSharpDflat, dSharpEflat],
     Fkey: [f, g, a, aSharpBFlat, c, d, e],
     Gkey: [g, a, b, c, d, e, fSharpGflat],
     Akey: [a, b, cSharpDflat, d, e, fSharpGflat, gSharpAflat],

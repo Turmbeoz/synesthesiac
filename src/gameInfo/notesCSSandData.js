@@ -1,15 +1,15 @@
 import lightninA from '../assets/lightning_colors/lightninBOTHENDS_A.png';
-import lightninAsBf from '../assets/lightning_colors/lightninBOTHENDS_AsBf.png';
+import lightninAB from '../assets/lightning_colors/lightninBOTHENDS_AsBf.png';
 import lightninB from '../assets/lightning_colors/lightninBOTHENDS_B.png';
 import lightninC from '../assets/lightning_colors/lightninBOTHENDS_C.png';
-import lightninCsDf from '../assets/lightning_colors/lightninBOTHENDS_CsDf.png';
+import lightninCD from '../assets/lightning_colors/lightninBOTHENDS_CsDf.png';
 import lightninD from '../assets/lightning_colors/lightninBOTHENDS_D.png';
-import lightninDsEf from '../assets/lightning_colors/lightninBOTHENDS_A.png';
+import lightninDE from '../assets/lightning_colors/lightninBOTHENDS_A.png';
 import lightninE from '../assets/lightning_colors/lightninBOTHENDS_E.png';
 import lightninF from '../assets/lightning_colors/lightninBOTHENDS_F.png';
-import lightninFsGf from '../assets/lightning_colors/lightninBOTHENDS_FsGf.png';
+import lightninFG from '../assets/lightning_colors/lightninBOTHENDS_FsGf.png';
 import lightninG from '../assets/lightning_colors/lightninBOTHENDS_G.png';
-import lightninGsAf from '../assets/lightning_colors/lightninBOTHENDS_GsAf.png';
+import lightninGA from '../assets/lightning_colors/lightninBOTHENDS_GsAf.png';
 import lightninBW from '../assets/lightning_colors/lightninBOTHENDSBW.png';
 import splosion from '../assets/explosions/splosionGRAY.png';
 
@@ -20,36 +20,52 @@ import splosionD from "../assets/explosions/splosionD.png"
 import splosionE from "../assets/explosions/splosionE.png"
 import splosionF from "../assets/explosions/splosionF.png"
 import splosionG from "../assets/explosions/splosionG.png"
-import splosionGsAf from "../assets/explosions/splosionGsAf.png"
-import splosionFsGf from "../assets/explosions/splosionFsGf.png"
-import splosionDsEf from "../assets/explosions/splosionDsEf.png"
-import splosionCsDf from "../assets/explosions/splosionCsDf.png"
-import splosionAsBf from "../assets/explosions/splosionAsBf.png"
+import splosionGA from "../assets/explosions/splosionGsAf.png"
+import splosionFG from "../assets/explosions/splosionFsGf.png"
+import splosionDE from "../assets/explosions/splosionDsEf.png"
+import splosionCD from "../assets/explosions/splosionCsDf.png"
+import splosionAB from "../assets/explosions/splosionAsBf.png"
+
+import aListener from "../assets/audio/listeners/a-listener.mp3"
+import bListener from "../assets/audio/listeners/b-listener.mp3"
+import cListener from "../assets/audio/listeners/c-listener.mp3"
+import dListener from "../assets/audio/listeners/d-listener.mp3"
+import eListener from "../assets/audio/listeners/e-listener.mp3"
+import fListener from "../assets/audio/listeners/f-listener.mp3"
+import gListener from "../assets/audio/listeners/g-listener.mp3"
+
+
+
+import abListener from "../assets/audio/listeners/ab-listener.mp3"
+import cdListener from "../assets/audio/listeners/cd-listener.mp3"
+import deListener from "../assets/audio/listeners/de-listener.mp3"
+import fgListener from "../assets/audio/listeners/fg-listener.mp3"
+import gaListener from "../assets/audio/listeners/ga-listener.mp3"
 
 const notesCSSandData = {
-    a: {stringVer: 'A', png: lightninA, hex: '#ff0000', exploder: splosionA },
+    a: {stringVer: 'A', png: lightninA, hex: '#ff0000', exploder: splosionA, listenerMP3: aListener },
 
-    aSharpBFlat: {stringVer: 'AB', png: lightninAsBf, hex: '#ff4500', exploder: splosionAsBf },
+    aSharpBFlat: {stringVer: 'AB', png: lightninAB, hex: '#ff4500', exploder: splosionAB, listenerMP3: abListener },
 
-    b: {stringVer: 'B', png: lightninB, hex: '#ffa500', exploder: splosionB },
+    b: {stringVer: 'B', png: lightninB, hex: '#ffa500', exploder: splosionB, listenerMP3: bListener },
 
-    c: {stringVer: 'C', png: lightninC, hex: '#ffff00', exploder: splosionC },
+    c: {stringVer: 'C', png: lightninC, hex: '#ffff00', exploder: splosionC, listenerMP3: cListener },
 
-    cSharpDflat: {stringVer: 'CD', png: lightninCsDf, hex: '#9acd32', exploder: splosionCsDf },
+    cSharpDflat: {stringVer: 'CD', png: lightninCD, hex: '#9acd32', exploder: splosionCD, listenerMP3: cdListener },
 
-    d: {stringVer: 'D', png: lightninD, hex: '#1BFA01', exploder: splosionD },
+    d: {stringVer: 'D', png: lightninD, hex: '#1BFA01', exploder: splosionD, listenerMP3: dListener },
 
-    dSharpEflat: {stringVer: 'DE', png: lightninDsEf, hex: '#008000', exploder: splosionDsEf },
+    dSharpEflat: {stringVer: 'DE', png: lightninDE, hex: '#008000', exploder: splosionDE, listenerMP3: deListener },
 
-    e: {stringVer: 'E', png: lightninE, hex: '#0cbaa6', exploder: splosionE },
+    e: {stringVer: 'E', png: lightninE, hex: '#0cbaa6', exploder: splosionE, listenerMP3: eListener },
 
-    f: {stringVer: 'F', png: lightninF, hex: '#0000ff', exploder: splosionF },
+    f: {stringVer: 'F', png: lightninF, hex: '#0000ff', exploder: splosionF, listenerMP3: fListener },
 
-    fSharpGflat: {stringVer: 'FG', png: lightninFsGf, hex: '#8a2be2', exploder: splosionFsGf },
+    fSharpGflat: {stringVer: 'FG', png: lightninFG, hex: '#8a2be2', exploder: splosionFG, listenerMP3: fgListener },
 
-    g: {stringVer: 'G', png: lightninG, hex: '#ee82ee', exploder: splosionG },
+    g: {stringVer: 'G', png: lightninG, hex: '#ff69b4', exploder: splosionG, listenerMP3: gListener },
 
-    gSharpAflat: { stringVer: 'GA', png: lightninGsAf, hex: '#800080', exploder: splosionGsAf },
+    gSharpAflat: { stringVer: 'GA', png: lightninGA, hex: '#800080', exploder: splosionGA, listenerMP3: gaListener },
     
     defaultGray: { hex: '#CACACA'},
 
@@ -68,6 +84,6 @@ export default notesCSSandData;
 // E Blue-Green filter: invert(58%) sepia(61%) saturate(3754%) hue-rotate(137deg) brightness(99%) contrast(91%); #0cbaa6
 // F Blue filter: invert(10%) sepia(100%) saturate(5057%) hue-rotate(244deg) brightness(99%) contrast(147%); #0000ff
 // F# Gb Blue-Violet filter: invert(19%) sepia(91%) saturate(4530%) hue-rotate(269deg) brightness(93%) contrast(91%); #8a2be2
-// G Violet filter: invert(72%) sepia(51%) saturate(1190%) hue-rotate(239deg) brightness(96%) contrast(95%);  #ee82ee
+// G Violet filter: invert(72%) sepia(51%) saturate(1190%) hue-rotate(239deg) brightness(96%) contrast(95%);  #ff69b4
 
 // G# Ab Purple filter: invert(6%) sepia(94%) saturate(6084%) hue-rotate(298deg) brightness(114%) contrast(104%); #800080

@@ -325,6 +325,27 @@
     z-index: 3;
 }
 
+@keyframes repairs { 
+  0% {opacity: 0.18;}
+
+
+  100%{opacity: 0;}
+
+}
+
+.cracks1{
+    /* transform: translateZ(-1px) scale(1.05); */
+    -webkit-animation: repairs 6s;
+    -moz-animation: repairs 6s;
+    -o-animation: repairs 6s;
+    animation: repairs 6s;
+    height: 60%;
+    overscroll-behavior: 'none';
+    position: fixed;
+    transition: all 6s ease;
+    z-index: 3;
+}
+
 
 @keyframes flickerletter {
   0%   { opacity:0.5; }
@@ -530,8 +551,8 @@ button:focus {
   transition: 500ms;
 }
 .btn-sharp-flatG:hover {
-	color: #ee82ee;
-	text-shadow: 0px 0px 10px #ee82ee;
+	color: #ff69b4;
+	text-shadow: 0px 0px 10px #ff69b4;
   background: #333;
 	border: none;
 	border-radius: 10px;

@@ -1,8 +1,7 @@
-import '../App.css'
+// import '../App.css'
 // import { useState, useEffect } from 'react';
 // import { DragDropContext } from 'react-beautiful-dnd';
 import horizontalFlare from '../assets/listeningFlare.png';
-import React from 'react'
 
 
 

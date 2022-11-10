@@ -1,4 +1,3 @@
-import React from 'react'
 
 export default function Bubbler(props) {
   const { hex } = props;

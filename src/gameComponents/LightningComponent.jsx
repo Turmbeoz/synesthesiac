@@ -1,6 +1,5 @@
 // const light = require('../gameInfo/lightningREAL.js');
 // import { Lightning } from '../gameInfo/lightningREAL';
-
 function LightningComponent(props){
     // x , y , hexColor
     const { hex, lineLength, aSqr, bSqr, xVal, lettButtXVal, note, png } = props;
