@@ -7,42 +7,60 @@ import { useState } from 'react';
 import  { WeaponAndShipContext } from '../src/gameInfo/gameContext'
 import notesCSSandData from './gameInfo/notesCSSandData.js';
 import keys from './gameInfo/keys';
-import Alienship from './gameComponents/Alienship';
+// import Alienship from './gameComponents/Alienship';
 // const villainsShipsOLD = [<Alienship left={25} key={'0'} keyId={'0'} note={'A'}></Alienship>]
+// import splosion from './assets/explosions/splosionGRAY.png'
+// import { Vibration } from 'react-native'
+
 
 function App() {
-  const buttonWidth = ((window.screen.width) / 7).toFixed(2);
-  const AbuttonCenter = -125;
+  const screenHeight = ((window.screen.height) / 7);
+  // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
-  const currentKey = keys.Ckey;
+  const currentKey = keys.Dkey;
   const numOfVillains = 20;
-  for (let i=0; i<7; i++){
-    let num = (((AbuttonCenter + buttonWidth*i) / window.screen.width)*100).toFixed(2);
-    bubbleCenterArr.push(num);
+  // console.log(navigator);
+  if ("vibrate" in navigator){
+    navigator.vibrate(500)
   }
   // Arrray of note objects.One eaach shows up and we'll add 10 or so random from the list to make it longer
-  const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[5]);
+  // const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[0]);
+  const villainKeyNotesArr = [...keys.Dkey] //.sort(() => Math.random() - 0.5);;
+  const remainVillains = numOfVillains - villainKeyNotesArr.length;
+  for (let i=0; i<remainVillains; i++){
+    villainKeyNotesArr.push(currentKey[Math.floor(Math.random()*currentKey.length)])
+  }
   const villainXposition = Array.from({length: numOfVillains}, () => Math.floor(Math.random() * 90))
   // final array of villain components
   const villainsShipsArr = [];
+  const newAlienObj = { listening: null, droneLandsAndExplodes: null };
   for (let i=0; i<numOfVillains; i++){
-    const newGuy = <Alienship left={villainXposition[i]} note={villainKeyNotesArr[i].stringVer} gray={notesCSSandData.defaultGray.cssFilter} color={villainKeyNotesArr[i].cssFilter} key={i + 'alienKey'} keyId={i + 'alienKeyID'} ></Alienship>
-    villainsShipsArr.push(newGuy)
+    newAlienObj[i] = {  left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false, struck: null, exploder: villainKeyNotesArr[i].exploder, listenerMP3: villainKeyNotesArr[i].listenerMP3 }
   }
-  const [weaponShipObj, setWeaponShipObj] = useState({lockedOn: null, villainsShipsArr: villainsShipsArr, buttonPressed:  {'A': false, 'B': false, 'C': false, 'D': false, 'E': false, 'F': false, 'G': false }, deadOrDestroyedIDs: new Set()});
-
+  const buttonAlternates = {
+    "A": { sharp: notesCSSandData.aSharpBFlat, flat: notesCSSandData.gSharpAflat },
+    "B": { sharp: null, flat: notesCSSandData.aSharpBFlat},
+    "C": { sharp: notesCSSandData.cSharpDflat, flat: null },
+    "D": { sharp: notesCSSandData.dSharpEflat, flat: notesCSSandData.cSharpDflat },
+    "E": { sharp: null, flat: notesCSSandData.dSharpEflat },
+    "F": { sharp: notesCSSandData.fSharpGflat, flat: null },
+    "G": { sharp: notesCSSandData.gSharpAflat, flat: notesCSSandData.fSharpGflat },
+  }
+  const [weaponShipObj, setWeaponShipObj] = useState({ deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, tempEvent: null, lightningCom: null, buttonAlternates: buttonAlternates });
   return (
     <div className="wrapper" id='canvas'>
-      <WeaponAndShipContext.Provider value={{weaponShipObj, setWeaponShipObj}}>
-      <WeaponSelector notes={notesCSSandData} aliensArray={villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
+      <canvas id='c'></canvas>
+      <WeaponAndShipContext.Provider value={{ weaponShipObj, setWeaponShipObj }}>
+      <WeaponSelector notes={keys.Ckey} aliensArray={weaponShipObj.villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
       </WeaponAndShipContext.Provider>
         <div className='header'>
               <img src={earth} className="earth" alt="earth" />
               <img src={starsForeground} className="starsfg"  alt="starsfg" />
         </div>
     <div className='bgstatic'>
-      <img src={starsBackground} className="starsbg"  bgproperties="fixed"  alt="starsbg" />
-      </div>
+      <img src={starsBackground}  bgproperties="fixed"  alt="cracks" />
+
+    </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import '../App.css'
+// import '../App.css'
 // import { useState, useEffect } from 'react';
 // import { DragDropContext } from 'react-beautiful-dnd';
 import horizontalFlare from '../assets/listeningFlare.png';
@@ -7,11 +7,8 @@ import horizontalFlare from '../assets/listeningFlare.png';
 
 
 
-
 function HorizontalFlare(props){
-    // if (props.touched){
-    //     // Enter the value to get it on screen if 
-    // }
+
     return (
         <>
         <img className='listener' style={{

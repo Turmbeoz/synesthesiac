@@ -1,22 +1,25 @@
-import React from 'react'
-import bubbleImg from '../assets/phaserGlow.png';
-import { useEffect } from 'react';
-
-
-
-
-
 
 export default function Bubbler(props) {
-  const { styles, delay } = props;
-  useEffect(() => {
+  const { hex } = props;
+  // console.log(hex, " : The HEX")
 
-    const timer = setTimeout(() => {
-    }, delay);
-    return () => clearTimeout(timer)
-  }, [delay]);
+    const stylesP = {
+    touchAction: 'none',
+    width: '12%',
+    height: '12%',
+    borderRadius: '20%',
+    pointerEvents: 'none',
+    position: 'fixed',
+    backgroundColor: hex,
+    boxShadow: `5 10 18px 0 ${hex}`,
+    opacity: '9%',
+    bottom: '0%'
+    }
 
-  return <img src={bubbleImg} style={styles} className='bubbles' ></img>
+  // return <img src={bubbleImg} style={styles} className='bubbles' ></img>
+  return <>
+    <div className='bubbles2' style={stylesP}></div>
+  </>
 };
 
 
