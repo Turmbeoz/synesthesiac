@@ -8,7 +8,7 @@ import HorizontalFlare from './HorizontalFlare';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import ReactHowler from 'react-howler'
 import Explosion from './Explosion.jsx'
-
+import forceFieldRattleAudio from "../assets/audio/rattleForceFields.mp3"
 // Sound Effect from <a href="https://pixabay.com/sound-effects/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=6288">Pixabay</a>
 
 // Add a horizontal glow while you're holding the ship to play the notes any that are in its same y value
@@ -76,8 +76,9 @@ function Alienship(props){
         adder: 0,
         peaked: false, // will be +1 or -1
         flipper: true,
-        mover: 12
+        mover: 12,
         })
+    const [rattleForceField, setRattleForceField] = useState(null)
     function lightningStrike(){
         // The ship is destroyed and a note is played
         shipState.explode = true;
@@ -88,6 +89,9 @@ function Alienship(props){
             return
         }
         if (hitInfo === "MISSED"){
+            if (!rattleForceField){
+                setRattleForceField(<ReactHowler src={forceFieldRattleAudio} seek={0} playing={true} html5={true} preload={true} volume={0.45}/>)
+            }
             nearMiss();
             return
         }
@@ -97,6 +101,7 @@ function Alienship(props){
         }
     }
     function nearMiss(){
+
             if (rattle.mover <= 0){
                 rattle.mover = 12
                 setRattle({ ...rattle });
@@ -193,7 +198,6 @@ function Alienship(props){
         if(e.touches.length > 1){
             e.preventDefault();
         }
-        console.log("No LOnger LisTenen")
 
         const currAlien = newAlienObj[props.index];
         currAlien.listeningHold = false;
@@ -204,7 +208,6 @@ function Alienship(props){
     function explodeInYaFace(){
         // Does damage to player
         if(!(deadRef.current)){
-            console.log("YOU SUNK MY BATTLESHIP");
             deadRef.current = true;
             // 11/ 7 - make the glass shatter!!!
             setWeaponShipObj({...weaponShipObj, droneLandsAndExplodes: true });
@@ -326,6 +329,7 @@ function Alienship(props){
     }
     return (
         <div >
+            {rattleForceField}
             <ReactHowler src={props.listenerMP3} seek={0} playing={newAlienObj[props.index].listeningHold} html5={true} preload={true} volume={0.15}/>
         {flare}  {explosion}
             {ship}

@@ -42,35 +42,80 @@ import deListener from "../assets/audio/listeners/de-listener.mp3"
 import fgListener from "../assets/audio/listeners/fg-listener.mp3"
 import gaListener from "../assets/audio/listeners/ga-listener.mp3"
 
+
+import AexplodeSound from "../assets/audio/exploders/Aexplosive.mp3"
+import ABexplodeSound from "../assets/audio/exploders/ABexplosive.mp3"
+import BexplodeSound from "../assets/audio/exploders/Bexplosive.mp3"
+import CexplodeSound from "../assets/audio/exploders/Cexplosive.mp3"
+import CDexplodeSound from "../assets/audio/exploders/CDexplosive.mp3"
+import DexplodeSound from "../assets/audio/exploders/Dexplosive.mp3"
+import DEexplodeSound from "../assets/audio/exploders/DEexplosive.mp3"
+import EexplodeSound from "../assets/audio/exploders/Eexplosive.mp3"
+import FexplodeSound from "../assets/audio/exploders/Fexplosive.mp3"
+import FGexplodeSound from "../assets/audio/exploders/FGexplosive.mp3"
+import GexplodeSound from "../assets/audio/exploders/Gexplosive.mp3"
+import GAexplodeSound from "../assets/audio/exploders/GAexplosive.mp3"
+
+
+import AnoteChange from "../assets/audio/noteChangers/a_note_change.mp3"
+import ABnoteChange from "../assets/audio/noteChangers/ab_note_change.mp3"
+import BnoteChange from "../assets/audio/noteChangers/b_note_change.mp3"
+import CnoteChange from "../assets/audio/noteChangers/c_note_change.mp3"
+import CDnoteChange from "../assets/audio/noteChangers/cd_note_change.mp3"
+import DnoteChange from "../assets/audio/noteChangers/d_note_change.mp3"
+import DEnoteChange from "../assets/audio/noteChangers/de_note_change.mp3"
+import EnoteChange from "../assets/audio/noteChangers/e_note_change.mp3"
+import FnoteChange from "../assets/audio/noteChangers/f_note_change.mp3"
+import FGnoteChange from "../assets/audio/noteChangers/fg_note_change.mp3"
+import GnoteChange from "../assets/audio/noteChangers/g_note_change.mp3"
+import GAnoteChange from "../assets/audio/noteChangers/ga_note_change.mp3"
+
 const notesCSSandData = {
-    a: {stringVer: 'A', png: lightninA, hex: '#ff0000', exploder: splosionA, listenerMP3: aListener },
+    a: {stringVer: 'A', png: lightninA, hex: '#ff0000', exploder: splosionA, listenerMP3: aListener, explodeAudio: AexplodeSound},
 
-    aSharpBFlat: {stringVer: 'AB', png: lightninAB, hex: '#ff4500', exploder: splosionAB, listenerMP3: abListener },
+    aSharpBFlat: {stringVer: 'AB', png: lightninAB, hex: '#ff4500', exploder: splosionAB, listenerMP3: abListener, explodeAudio: ABexplodeSound},
 
-    b: {stringVer: 'B', png: lightninB, hex: '#ffa500', exploder: splosionB, listenerMP3: bListener },
+    b: {stringVer: 'B', png: lightninB, hex: '#ffa500', exploder: splosionB, listenerMP3: bListener, explodeAudio: BexplodeSound},
 
-    c: {stringVer: 'C', png: lightninC, hex: '#ffff00', exploder: splosionC, listenerMP3: cListener },
+    c: {stringVer: 'C', png: lightninC, hex: '#ffff00', exploder: splosionC, listenerMP3: cListener, explodeAudio: CexplodeSound},
 
-    cSharpDflat: {stringVer: 'CD', png: lightninCD, hex: '#9acd32', exploder: splosionCD, listenerMP3: cdListener },
+    cSharpDflat: {stringVer: 'CD', png: lightninCD, hex: '#9acd32', exploder: splosionCD, listenerMP3: cdListener, explodeAudio: CDexplodeSound },
 
-    d: {stringVer: 'D', png: lightninD, hex: '#1BFA01', exploder: splosionD, listenerMP3: dListener },
+    d: {stringVer: 'D', png: lightninD, hex: '#1BFA01', exploder: splosionD, listenerMP3: dListener, explodeAudio: DexplodeSound },
 
-    dSharpEflat: {stringVer: 'DE', png: lightninDE, hex: '#008000', exploder: splosionDE, listenerMP3: deListener },
+    dSharpEflat: {stringVer: 'DE', png: lightninDE, hex: '#008000', exploder: splosionDE, listenerMP3: deListener, explodeAudio: DEexplodeSound },
 
-    e: {stringVer: 'E', png: lightninE, hex: '#0cbaa6', exploder: splosionE, listenerMP3: eListener },
+    e: {stringVer: 'E', png: lightninE, hex: '#0cbaa6', exploder: splosionE, listenerMP3: eListener, explodeAudio: EexplodeSound },
 
-    f: {stringVer: 'F', png: lightninF, hex: '#0000ff', exploder: splosionF, listenerMP3: fListener },
+    f: {stringVer: 'F', png: lightninF, hex: '#0000ff', exploder: splosionF, listenerMP3: fListener, explodeAudio: FexplodeSound},
 
-    fSharpGflat: {stringVer: 'FG', png: lightninFG, hex: '#8a2be2', exploder: splosionFG, listenerMP3: fgListener },
+    fSharpGflat: {stringVer: 'FG', png: lightninFG, hex: '#8a2be2', exploder: splosionFG, listenerMP3: fgListener, explodeAudio: FGexplodeSound},
 
-    g: {stringVer: 'G', png: lightninG, hex: '#ff69b4', exploder: splosionG, listenerMP3: gListener },
+    g: {stringVer: 'G', png: lightninG, hex: '#ff69b4', exploder: splosionG, listenerMP3: gListener, explodeAudio: GexplodeSound },
 
-    gSharpAflat: { stringVer: 'GA', png: lightninGA, hex: '#800080', exploder: splosionGA, listenerMP3: gaListener },
+    gSharpAflat: { stringVer: 'GA', png: lightninGA, hex: '#800080', exploder: splosionGA, listenerMP3: gaListener, explodeAudio: GAexplodeSound },
     
     defaultGray: { hex: '#CACACA'},
 
-    deactiveGray: { hex: '#090909' }
+    deactiveGray: { hex: '#090909' },
+
+    noteChangers: {
+        "A": AnoteChange, 
+        "AB": ABnoteChange, 
+        "B": BnoteChange, 
+        "C": CnoteChange,
+        "CD": CDnoteChange,
+        "D": DnoteChange,
+        "DE": DEnoteChange,
+        "E": EnoteChange,
+        "F": FnoteChange,
+        "FG": FGnoteChange,
+        "G": GnoteChange,
+        "GA": GAnoteChange,
+    } 
 }
+
+
 export default notesCSSandData;
 
 

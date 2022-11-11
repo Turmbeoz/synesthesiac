@@ -2,6 +2,7 @@
 // import e from "express";
 import { useState, useEffect, useContext, useRef } from "react";
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
+import ReactHowler from 'react-howler'
 
 export function NoteBadgeSelect(props){
     const { natural, sharp, flat, noteButtonStr, buttonNoteInfo, stylesP } = props;
@@ -42,7 +43,7 @@ export function NoteBadgeSelect(props){
         // push the button right
         cssDiv.left = "1%"
     }else if(noteButtonStr === "G"){
-        //push the button right
+        //push the button left
         cssDiv.right = "1%"
     }else{
         cssDiv.left = ""
@@ -56,25 +57,3 @@ export function NoteBadgeSelect(props){
     </>)
 }
 
-
-
-{/* <button style={{
-            color: "#444",
-            borderRadius: "30%",
-            width: "8%",
-            background: "radial-gradient(#CACACA, #444)",
-            border: "none",
-            fontSize: "35px",
-            fontWeight: "bolder",
-            width: "10%"
-        }}>♮</button>
-        
-        <button style={{
-            color: "#444",
-            borderRadius: "30%",
-            width: "8%",
-            background: "radial-gradient(#CACACA, #444)",
-            border: "none",
-            fontWeight: "bolder",
-            fontSize: "25px"
-        }}>#</button > */}

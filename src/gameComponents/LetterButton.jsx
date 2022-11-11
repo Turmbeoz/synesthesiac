@@ -5,8 +5,7 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import lightninBW from '../assets/lightning_colors/lightninBOTHENDSBW.png'
 import { NoteBadgeSelect } from './NoteBadgeSelect';
-
-
+import ReactHowler from 'react-howler'
 
 
 function LetterButtonSquare(props){
@@ -15,20 +14,22 @@ function LetterButtonSquare(props){
     const inactive = '#090909';
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
     const { newAlienObj, buttonAlternates } = weaponShipObj;
-    const { note, colorCSS, gray, png } = props;
+    const { note, colorCSS, gray, png, noteChangeAudio } = props;
     const [buttonsState, setButtonState] = useState({currColor: '#CACACA' })
     const [weaponStateLetter, setWeaponStateLetter] = useState({
         wubblesI:[]
     })
     const [lightninState, setLightninState] = useState({lightnin: null})
     const [noteModifier, setNoteModifier] = useState(null)
+    const [explosionSound, setExplosionSound] = useState(null)
+    const [noteChangeSound, setNoteChangeSound] = useState(null)
     const timerRef = useRef();
     const isLongPress = useRef(false);
     const closeSharpFlatSelect = useRef();
     
     const isHoldingNoteKey = useRef();
     const isHoldingNoteKeyTimeout = useRef();
-    
+
     useEffect(()=>{
         let handler = (e)=>{
 
@@ -45,26 +46,31 @@ function LetterButtonSquare(props){
 
     const [buttonNoteInfo, setButtonNoteInfo] = useState({ active: colorCSS, left: buttonAlternates[note].flat, right: buttonAlternates[note].sharp, symbols: ["♮", "♭", "#"] })
     function noteModifierFunc(){
-        return setNoteModifier(<NoteBadgeSelect buttonNoteInfo={buttonNoteInfo} classNAME={`btn-sharp-flat`} natural={colorCSS} flat={buttonAlternates[note].flat} noteButtonStr={note} sharp={buttonAlternates[note].sharp} />)
+        return setNoteModifier(<NoteBadgeSelect noteChangeAudio={noteChangeAudio} buttonNoteInfo={buttonNoteInfo} classNAME={`btn-sharp-flat`} natural={colorCSS} flat={buttonAlternates[note].flat} noteButtonStr={note} sharp={buttonAlternates[note].sharp} />)
     }
     function noteModifierFuncOFF(e){
         const x = ["♭", "#", "♮"];
         let xxx = {color: "CACACA"}
-        // ADD SOUNDS HERE for approx 500ms - all three ways - the sound of switching cannons
+        const { noteChangersAudio } = buttonAlternates
+        console.log(noteChangersAudio)
+        // ADD SOUNDS HERE for approx 500ms - all three ways - the sound of switching cannons - note change AUDIO here too
         if (e.target.outerText === "♮"){
             xxx = {color: buttonNoteInfo.active.hex}
+            setNoteChangeSound(<ReactHowler src={noteChangersAudio[buttonNoteInfo.active.stringVer]} seek={0} playing={true} html5={true} preload={true} volume={0.25}/>)
             setButtonState({ currColor: colorCSS.hex })
-            setButtonNoteInfo({ active: colorCSS, left: buttonAlternates[note].flat, right: buttonAlternates[note].sharp, symbols: ["♮", "♭", "#"]})
+            setButtonNoteInfo({ active: colorCSS, left: buttonAlternates[note].flat, right: buttonAlternates[note].sharp, symbols: ["♮", "♭", "#"]});
             
         }
         if (e.target.outerText === "♭"){
             xxx = {color: buttonNoteInfo.left.hex}
+            setNoteChangeSound(<ReactHowler src={noteChangersAudio[buttonNoteInfo.left.stringVer]} seek={0} playing={true} html5={true} preload={true} volume={0.25}/>)
             setButtonState({ currColor: buttonAlternates[note].flat.hex })
             setButtonNoteInfo({ active: buttonAlternates[note].flat, left: colorCSS, right: buttonAlternates[note].sharp, symbols: ["♭", "♮", "#"] });
             
         }
         if (e.target.outerText === "#"){
             xxx = {color: buttonNoteInfo.right.hex}
+            setNoteChangeSound(<ReactHowler src={noteChangersAudio[buttonNoteInfo.right.stringVer]} seek={0} playing={true} html5={true} preload={true} volume={0.25}/>)
             setButtonState({ currColor: buttonAlternates[note].sharp.hex })
             setButtonNoteInfo({ active: buttonAlternates[note].sharp, left: buttonAlternates[note].flat, right: colorCSS, symbols: ["#", "♭", "♮"] })
             
@@ -136,7 +142,9 @@ function LetterButtonSquare(props){
             const theysListenin = (newAlienObj.listening && buttonNoteInfo.active.stringVer === newAlienObj.listening);
             if (theysListenin){
                 setButtonState({currColor: buttonNoteInfo.active.hex });
-                newAlienObj[indexVal].struck = "DESTROYED"
+                newAlienObj[indexVal].struck = "DESTROYED";
+                setExplosionSound(<ReactHowler  src={newAlienObj[indexVal].explodeAudio} seek={0} playing={true} html5={true} preload={true} volume={0.55}/>
+                ) 
                 setTimeout(() => {
                     newAlienObj[indexVal].removeFromScreen = true
                 }, 900)
@@ -215,7 +223,8 @@ function LetterButtonSquare(props){
             {noteModifier}
             {noteBadge}
             {lightninState.lightnin}
-            
+            {explosionSound}
+            {noteChangeSound}
         </div>
         
        
