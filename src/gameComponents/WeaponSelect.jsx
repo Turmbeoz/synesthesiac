@@ -2,13 +2,15 @@ import LetterButtonSquare from './LetterButton';
 import Bubbler from './Bubbler';
 import { useState, useContext, useEffect } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
+import ReactHowler from 'react-howler'
 import useInterval from '../gameInfo/useInterval';
 import Alienship from './Alienship';
 import notesCSSandData from '../gameInfo/notesCSSandData';
 import cracks1 from '../assets/glass_shatters/broken-glass-effect-transparent-png-11.png'
 import cracks2 from '../assets/glass_shatters/cracks.png'
 import cracks3 from '../assets/glass_shatters/cracked-glass-effect-png-11552156306eklc2wuros.png'
-
+import backgroundBreathe from "../assets/audio/heartbeat.mp3"
+import glassCracks from "../assets/audio/windowsmash.mp3"
 function WeaponSelector(props){
     const { bubbleCssPos, notes } = props;
     const buttonWidth = window.screen.width / 7;
@@ -18,8 +20,9 @@ function WeaponSelector(props){
     // Save note and state of ship being listened to.
     const screenHeight = window.screen.height;
     const [glass, setGlass] = useState({ currGlass: null, coeff: 1 })
-
+    const [glassAudio, setGlassAudio] = useState(null)
     const [slice, setSlice] = useState({ left: 0, right: 1 });
+
     function runTheInterval(){
         const difference = slice.right - slice.left;
         if(slice.right < numOfVillains){
@@ -34,9 +37,8 @@ function WeaponSelector(props){
             return { right: slice.right, left: slice.left }
         })
     }
-    const interValue = useInterval(runTheInterval, 4000);
+    const interValue = useInterval(runTheInterval, 6000);
     function makeCracks(){
-        console.log("we makin cracks!!!");
         let glassShatterJSX = (<img src={cracks3} className="cracks1" style={{
             position: "absolute",
             height: "100%",
@@ -45,6 +47,7 @@ function WeaponSelector(props){
             
                
           }} bgproperties="fixed"  alt="cracks" />);
+        setGlassAudio(<ReactHowler src={glassCracks} seek={0} playing={true} html5={true} preload={true} volume={0.02}/>)
         setGlass({currGlass: glassShatterJSX});
         setTimeout(() => {
             setGlass({ currGlass: null })
@@ -86,9 +89,9 @@ function WeaponSelector(props){
             {glass.currGlass}
         <div className="shipmetal" >
         {weaponSreadArray}
-        
+        <ReactHowler loop={true} src={backgroundBreathe} seek={0} playing={true} html5={true} preload={true} volume={0.4}/>
         </div>
-        
+        {glassAudio}
         </>
     )
 }

@@ -17,7 +17,7 @@ function App() {
   const screenHeight = ((window.screen.height) / 7);
   // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
-  const currentKey = keys.Dkey;
+  const currentKey = keys.Ckey;
   const numOfVillains = 20;
   // console.log(navigator);
   if ("vibrate" in navigator){
@@ -25,7 +25,7 @@ function App() {
   }
   // Arrray of note objects.One eaach shows up and we'll add 10 or so random from the list to make it longer
   // const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[0]);
-  const villainKeyNotesArr = [...keys.Dkey] //.sort(() => Math.random() - 0.5);;
+  const villainKeyNotesArr = [...keys.Ckey] //.sort(() => Math.random() - 0.5);;
   const remainVillains = numOfVillains - villainKeyNotesArr.length;
   for (let i=0; i<remainVillains; i++){
     villainKeyNotesArr.push(currentKey[Math.floor(Math.random()*currentKey.length)])
@@ -35,7 +35,7 @@ function App() {
   const villainsShipsArr = [];
   const newAlienObj = { listening: null, droneLandsAndExplodes: null };
   for (let i=0; i<numOfVillains; i++){
-    newAlienObj[i] = {  left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false, struck: null, exploder: villainKeyNotesArr[i].exploder, listenerMP3: villainKeyNotesArr[i].listenerMP3 }
+    newAlienObj[i] = {  left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false, struck: null, exploder: villainKeyNotesArr[i].exploder, listenerMP3: villainKeyNotesArr[i].listenerMP3, explodeAudio: villainKeyNotesArr[i].explodeAudio }
   }
   const buttonAlternates = {
     "A": { sharp: notesCSSandData.aSharpBFlat, flat: notesCSSandData.gSharpAflat },
@@ -45,6 +45,7 @@ function App() {
     "E": { sharp: null, flat: notesCSSandData.dSharpEflat },
     "F": { sharp: notesCSSandData.fSharpGflat, flat: null },
     "G": { sharp: notesCSSandData.gSharpAflat, flat: notesCSSandData.fSharpGflat },
+    noteChangersAudio: notesCSSandData.noteChangers
   }
   const [weaponShipObj, setWeaponShipObj] = useState({ deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, tempEvent: null, lightningCom: null, buttonAlternates: buttonAlternates });
   return (
