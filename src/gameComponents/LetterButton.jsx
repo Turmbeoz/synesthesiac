@@ -15,7 +15,7 @@ function LetterButtonSquare(props){
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
     const { newAlienObj, buttonAlternates } = weaponShipObj;
     const { note, colorCSS, gray, png, noteChangeAudio } = props;
-    const [buttonsState, setButtonState] = useState({currColor: '#CACACA' })
+    const [buttonsState, setButtonState] = useState({currColor: props.active? active : inactive })
     const [weaponStateLetter, setWeaponStateLetter] = useState({
         wubblesI:[]
     })
