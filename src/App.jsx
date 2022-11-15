@@ -7,22 +7,21 @@ import { useState } from 'react';
 import  { WeaponAndShipContext } from '../src/gameInfo/gameContext'
 import notesCSSandData from './gameInfo/notesCSSandData.js';
 import keys from './gameInfo/keys';
-// import Alienship from './gameComponents/Alienship';
-// const villainsShipsOLD = [<Alienship left={25} key={'0'} keyId={'0'} note={'A'}></Alienship>]
-// import splosion from './assets/explosions/splosionGRAY.png'
-// import { Vibration } from 'react-native'
+import { useOutletContext } from 'react-router-dom';
 
 
 function App() {
   const screenHeight = ((window.screen.height) / 7);
+  const { chords } = keys;
+  const name = useOutletContext();
   // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
   const currentKey = keys.Ckey;
   const numOfVillains = 20;
-  // console.log(navigator);
   if ("vibrate" in navigator){
     navigator.vibrate(500)
   }
+  console.log(name)
   // Arrray of note objects.One eaach shows up and we'll add 10 or so random from the list to make it longer
   // const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[0]);
   const villainKeyNotesArr = [...keys.Ckey] //.sort(() => Math.random() - 0.5);;
@@ -52,7 +51,7 @@ function App() {
     <div className="wrapper" id='canvas'>
       <canvas id='c'></canvas>
       <WeaponAndShipContext.Provider value={{ weaponShipObj, setWeaponShipObj }}>
-      <WeaponSelector notes={keys.Ckey} aliensArray={weaponShipObj.villainsShipsArr} bubbleCssPos={bubbleCenterArr}/>
+      <WeaponSelector notes={keys.Ckey} bubbleCssPos={bubbleCenterArr}/>
       </WeaponAndShipContext.Provider>
         <div className='header'>
               <img src={earth} className="earth" alt="earth" />

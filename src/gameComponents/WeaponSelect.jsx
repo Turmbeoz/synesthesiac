@@ -72,6 +72,7 @@ function WeaponSelector(props){
         
     }
     const keyShift = [true, true, true, true, true, true, true];
+    const keyShiftChord = [true, false, true, false, true, false, false];
     const activeGray = '#CACACA';
     const inactiveGray = '#090909';
     const tempNOTES = { 0:'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G'};
