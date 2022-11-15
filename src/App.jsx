@@ -7,24 +7,24 @@ import { useState } from 'react';
 import  { WeaponAndShipContext } from '../src/gameInfo/gameContext'
 import notesCSSandData from './gameInfo/notesCSSandData.js';
 import keys from './gameInfo/keys';
-import { useOutletContext } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 function App() {
+  const locate = useLocation()
   const screenHeight = ((window.screen.height) / 7);
   const { chords } = keys;
-  const name = useOutletContext();
   // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
-  const currentKey = keys.Ckey;
+  const currentKey = locate.state.todayNotes.notes;
   const numOfVillains = 20;
   if ("vibrate" in navigator){
     navigator.vibrate(500)
   }
-  console.log(name)
+  
   // Arrray of note objects.One eaach shows up and we'll add 10 or so random from the list to make it longer
   // const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[0]);
-  const villainKeyNotesArr = [...keys.Ckey] //.sort(() => Math.random() - 0.5);;
+  const villainKeyNotesArr = [...locate.state.todayNotes.notes] //.sort(() => Math.random() - 0.5);;
   const remainVillains = numOfVillains - villainKeyNotesArr.length;
   for (let i=0; i<remainVillains; i++){
     villainKeyNotesArr.push(currentKey[Math.floor(Math.random()*currentKey.length)])
@@ -51,7 +51,7 @@ function App() {
     <div className="wrapper" id='canvas'>
       <canvas id='c'></canvas>
       <WeaponAndShipContext.Provider value={{ weaponShipObj, setWeaponShipObj }}>
-      <WeaponSelector notes={keys.Ckey} bubbleCssPos={bubbleCenterArr}/>
+      <WeaponSelector notes={keys.Ckey} bubbleCssPos={bubbleCenterArr} buttonBools={locate.state.todayNotes.buttonBools}/>
       </WeaponAndShipContext.Provider>
         <div className='header'>
               <img src={earth} className="earth" alt="earth" />

@@ -43,32 +43,6 @@ function Alienship(props){
         note: props.note,
         hitNotDead: props.hitNotDead,
     })
-    // const audioElem = useRef(new Audio(cListener));
-
-
-
-    // const sound = new Howl({
-    //     src: [cListener],
-    //     preload: true,
-    //     autoplay: false
-    // })
-    // Howler.volume(0.5);
-
-
-
-    // useEffect(()=>{
-    //     console.log("we listenen ahhhh yooooooo")
-    //     // console.log(sound)
-    //     if (shipState.listeningHold){
-            
-    //         // sound.play()
-    //     }else{
-    //         console.log("NOT listenen ahhhh big dowg!!")
-    //         // sound.pause();
-
-    //     }
-    // }, [shipState.listeningHold])
-
 
     // Alien ship is struck but its the wrong one - ship rattles
     const [rattle, setRattle] = useState({        
@@ -184,7 +158,6 @@ function Alienship(props){
             }
         }
         if (!stillTouchingBool){
-            console.log("No LOnger LisTenen")
             const currAlien = newAlienObj[props.index];
             currAlien.listeningHold = false;
             newAlienObj.listening = null;
@@ -209,8 +182,8 @@ function Alienship(props){
         // Does damage to player
         if(!(deadRef.current)){
             deadRef.current = true;
-            // 11/ 7 - make the glass shatter!!!
-            setWeaponShipObj({...weaponShipObj, droneLandsAndExplodes: true });
+            newAlienObj[props.index].struck = "COLLISION";
+            setWeaponShipObj({...weaponShipObj, droneLandsAndExplodes: true, newAlienObj: newAlienObj });
         }
         
 

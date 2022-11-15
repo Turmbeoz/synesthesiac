@@ -5,14 +5,13 @@ import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import ReactHowler from 'react-howler'
 import useInterval from '../gameInfo/useInterval';
 import Alienship from './Alienship';
-import notesCSSandData from '../gameInfo/notesCSSandData';
 import cracks1 from '../assets/glass_shatters/broken-glass-effect-transparent-png-11.png'
 import cracks2 from '../assets/glass_shatters/cracks.png'
 import cracks3 from '../assets/glass_shatters/cracked-glass-effect-png-11552156306eklc2wuros.png'
 import backgroundBreathe from "../assets/audio/heartbeat.mp3"
 import glassCracks from "../assets/audio/windowsmash.mp3"
 function WeaponSelector(props){
-    const { bubbleCssPos, notes } = props;
+    const { bubbleCssPos, notes, buttonBools } = props;
     const buttonWidth = window.screen.width / 7;
     // useContext hook for communication between ship and cannon
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
@@ -64,17 +63,20 @@ function WeaponSelector(props){
     }, [weaponShipObj.droneLandsAndExplodes])
 
 
-    
+    console.log(newAlienObj)
     const liveOnScreenNEW = [];
     for (let i=slice.left; i<slice.right; i++){
         const newGuy = newAlienObj[i].removeFromScreen? null : <Alienship listenerMP3={newAlienObj[i].listenerMP3} exploder={newAlienObj[i].exploder} left={ newAlienObj[i].left } note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } index={newAlienObj[i].index} idle={newAlienObj[i].idle} touched={newAlienObj[i].touched} listeningHold={newAlienObj[i].listeningHold} hitNotDead={newAlienObj[i].hitNotDead}></Alienship>
         liveOnScreenNEW.push(newGuy)
         
     }
-    const keyShift = [true, true, true, true, true, true, true];
-    const keyShiftChord = [true, false, true, false, true, false, false];
+    const keyShift = [false, false, false, false, false, false, false];
+    for (let i=0; i<buttonBools.length; i++){
+        keyShift[buttonBools[i]] = true
+    }
+    // const keyShiftChord = [true, false, true, false, true, false, false];
     const activeGray = '#CACACA';
-    const inactiveGray = '#090909';
+    const inactiveGray = 'blue';
     const tempNOTES = { 0:'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G'};
     // const tempIMG = [A,B,C,D,E,F,G]
     const weaponSreadArray = [];
@@ -83,7 +85,7 @@ function WeaponSelector(props){
         const letterButton = <LetterButtonSquare png={notes[i].png} active={ keyShift[i] } note={ tempNOTES[i] } gray={keyShift[i]? activeGray : inactiveGray} colorCSS={notes[i]} delay={2500} listening={newAlienObj.listening} key={notes[i].stringVer+'lbs'} />
         weaponSreadArray.push(letterButton)
     }
-
+    const lastAlienIndexNum = weaponShipObj.numOfVillains - 1;
     return (
         <>
             {liveOnScreenNEW}

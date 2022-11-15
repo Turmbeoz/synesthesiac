@@ -151,6 +151,7 @@
 .starsfg{
   transform: translateZ(-15px) scale(1.5);
   z-index: -2;
+  height: 100%;
   width: 170%;
   pointer-events: none; 
   
@@ -285,6 +286,7 @@
 
 }
 .buttonHome{
+  transition: ease;
   display: flex;
   justify-content: center;
   height: 8%;
@@ -298,15 +300,22 @@
 	background: #333;
 	border: none;
 	border-radius: 10px;
-	color: rgb(202, 202, 202);
+	color: #949494;
+  text-shadow: 0 0 8px;
 	font-size: 36px;
+  user-select: none;
+  animation: flickerletter 1.5s infinite;
+  -moz-animation: flickerletter 1.5s infinite;
+  -webkit-animation: flickerletter 1.5s infinite;
+
 
 
 }
 .buttonHome:hover {
-	color: #333;
-	text-shadow: 0px 0px 10px #333;
+	color: rgb(65, 65, 65);
+	text-shadow: 0px 0px 10px rgb(30, 30, 30);
   font-size: 36px;
+  user-select: none;
 }
 
 
@@ -409,6 +418,7 @@
   font-family: EstrogenPill-rmK;
   font-size: 85%;
   color: rgb(81, 81, 81);
+  user-select: none;
 }
 canvas {
   position: absolute;

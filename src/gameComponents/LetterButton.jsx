@@ -11,7 +11,7 @@ import ReactHowler from 'react-howler'
 function LetterButtonSquare(props){
     let shooter;
     const active = '#CACACA';
-    const inactive = '#090909';
+    const inactive = '#222';
     const { weaponShipObj, setWeaponShipObj } = useContext(WeaponAndShipContext);
     const { newAlienObj, buttonAlternates } = weaponShipObj;
     const { note, colorCSS, gray, png, noteChangeAudio } = props;
@@ -86,16 +86,15 @@ function LetterButtonSquare(props){
 
     }
     function shoot(e){
-        console.log("SHOOTIN")
-        if (e.target.className === "btn-sharp-flatL" || e.target.className === "btn-sharp-flatR") {
-            noteModifierFuncOFF(e);
-            return;
-        }
+
         // Uncomment later after passing the active or not prop for the buttons
         if (!props.active){
             return;
         }
-        
+        if (e.target.className === "btn-sharp-flatL" || e.target.className === "btn-sharp-flatR") {
+            noteModifierFuncOFF(e);
+            return;
+        }
         if (e.touches.length > 1){
             e.preventDefault();
         }

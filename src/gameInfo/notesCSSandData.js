@@ -4,7 +4,7 @@ import lightninB from '../assets/lightning_colors/lightninBOTHENDS_B.png';
 import lightninC from '../assets/lightning_colors/lightninBOTHENDS_C.png';
 import lightninCD from '../assets/lightning_colors/lightninBOTHENDS_CsDf.png';
 import lightninD from '../assets/lightning_colors/lightninBOTHENDS_D.png';
-import lightninDE from '../assets/lightning_colors/lightninBOTHENDS_A.png';
+import lightninDE from '../assets/lightning_colors/lightninBOTHENDS_DsEf.png';
 import lightninE from '../assets/lightning_colors/lightninBOTHENDS_E.png';
 import lightninF from '../assets/lightning_colors/lightninBOTHENDS_F.png';
 import lightninFG from '../assets/lightning_colors/lightninBOTHENDS_FsGf.png';

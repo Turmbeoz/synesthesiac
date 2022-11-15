@@ -1,6 +1,6 @@
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, Outlet } from "react-router-dom";
 import App from '../App';
-import HomePage from "./home";
+import HomePage from "./Home";
 
 
 
