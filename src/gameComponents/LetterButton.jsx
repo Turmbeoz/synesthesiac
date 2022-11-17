@@ -43,7 +43,7 @@ function LetterButtonSquare(props){
             document.removeEventListener("touchstart", handler)
         }
     });
-
+    
     const [buttonNoteInfo, setButtonNoteInfo] = useState({ active: colorCSS, left: buttonAlternates[note].flat, right: buttonAlternates[note].sharp, symbols: ["♮", "♭", "#"] })
     function noteModifierFunc(){
         return setNoteModifier(<NoteBadgeSelect noteChangeAudio={noteChangeAudio} buttonNoteInfo={buttonNoteInfo} classNAME={`btn-sharp-flat`} natural={colorCSS} flat={buttonAlternates[note].flat} noteButtonStr={note} sharp={buttonAlternates[note].sharp} />)

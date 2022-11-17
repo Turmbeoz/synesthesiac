@@ -1,6 +1,9 @@
 import keys from "../gameInfo/keys.js"
 import { Link, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from 'react';
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import '../../src/App.css'
+import headphones from "../assets/headphones.png"
 export default function HomePage(){
     const { chords } = keys;
     const gameChord = {name: "Tom!"};
@@ -22,7 +25,7 @@ export default function HomePage(){
             
             paddingTop: "8%",
             backgroundColor: "#333",
-            height: "100vh",
+            height: "100%",
             fontFamily: "Estrogen-YJL",
             color: "#CACACA",
             display: "flex",
@@ -54,23 +57,43 @@ export default function HomePage(){
                 }}>{daysofNotes[today].name}</div>
 
             <button onTouchEnd={()=> setTimeout(() => navigate("/play",{ state: { todayNotes: daysofNotes[today] }}), 250)} className="buttonHome">
-                                    PLAY
-            </button>
-
-
-            <button className="buttonHome">
-            <a style={{ textDecoration: 'none', color: "#949494" }} target="_blank" href="https://www.patreon.com/user?u=82811009" rel="noreferrer noopener">
-                        Donate
-                    </a>
-            </button>
-            <button className="buttonHome">
-              Contact
+                                    PLAY{/* PLAY <img height={"30px"} boxShadow={'0 0 10px'} marginLeft={"10px"} src={headphones}/> */}
             </button>
             <button className="buttonHome">
               Tutorial
             </button>
+            <h3>Support The Cause!</h3>
 
-                <div style={{marginTop: "25%",bottom: "1%", fontSize: "12px"}}>Cellos by Harley Pryor, Sound Engineering by R Ziegler, Game by TBP</div>
+            <div style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              width: "60%"
+            }}>
+
+
+            <button className="buttonHome">
+            <a style={{ textDecoration: 'none', color: "#949494" }} target="_blank" href="https://www.paypal.com/donate/?hosted_button_id=UBPMU8U47U76L" rel="noreferrer noopener">
+                        Donate
+                    </a>
+            </button>
+
+            <button className="buttonHome">
+
+            <a style={{ textDecoration: 'none', color: "#949494" }} target="_blank" href="https://www.patreon.com/user?u=82811009" rel="noreferrer noopener">
+                        Patreon
+                    </a>
+            </button>
+
+
+            </div>
+
+            <button className="buttonHome" onClick={() => window.location = 'mailto:snyesthesiacgame@google.com'}>
+                    Contact
+            </button>
+
+
+                <div style={{ marginTop: "25%",bottom: "1%", fontSize: "12px" }}>Cellos by H Pryor, Sound Engineering by R Ziegler, Game by TBP</div>
         </div>
         </>
     )

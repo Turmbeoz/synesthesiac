@@ -1,5 +1,6 @@
 import LetterButtonSquare from './LetterButton';
 import Bubbler from './Bubbler';
+import EndModal from './EndModal'
 import { useState, useContext, useEffect } from 'react';
 import { WeaponAndShipContext } from '../gameInfo/gameContext';
 import ReactHowler from 'react-howler'
@@ -21,7 +22,8 @@ function WeaponSelector(props){
     const [glass, setGlass] = useState({ currGlass: null, coeff: 1 })
     const [glassAudio, setGlassAudio] = useState(null)
     const [slice, setSlice] = useState({ left: 0, right: 1 });
-
+    const [endModalOPEN, setEndModalOPEN] = useState(false);
+    const [finals, setFinals] = useState(null)
     function runTheInterval(){
         const difference = slice.right - slice.left;
         if(slice.right < numOfVillains){
@@ -63,7 +65,6 @@ function WeaponSelector(props){
     }, [weaponShipObj.droneLandsAndExplodes])
 
 
-    console.log(newAlienObj)
     const liveOnScreenNEW = [];
     for (let i=slice.left; i<slice.right; i++){
         const newGuy = newAlienObj[i].removeFromScreen? null : <Alienship listenerMP3={newAlienObj[i].listenerMP3} exploder={newAlienObj[i].exploder} left={ newAlienObj[i].left } note={ newAlienObj[i].note } gray={ newAlienObj[i].gray } color={ newAlienObj[i].color } key={ i + 'alienKey' } keyId={ i + 'alienKeyID' } index={newAlienObj[i].index} idle={newAlienObj[i].idle} touched={newAlienObj[i].touched} listeningHold={newAlienObj[i].listeningHold} hitNotDead={newAlienObj[i].hitNotDead}></Alienship>
@@ -86,8 +87,41 @@ function WeaponSelector(props){
         weaponSreadArray.push(letterButton)
     }
     const lastAlienIndexNum = weaponShipObj.numOfVillains - 1;
+    function finalTallyArrayAdder(newAlienObj){
+        const finalTally = {};
+        for (let i = 0; i <= lastAlienIndexNum; i++){
+            const currNote = newAlienObj[i];
+            if (finalTally[currNote.note]){
+                finalTally[currNote.note].total += 1;
+                finalTally[currNote.note].destroyed += currNote.struck === "DESTROYED"? 1 : 0
+            }else{
+                finalTally[currNote.note] = { label: currNote.note, total: 1,color: currNote.color, destroyed: currNote.struck != "COLLISION"? 1 : 0 }
+            }
+        }
+
+
+
+
+        return finalTally
+    }
+    
+    if (newAlienObj[lastAlienIndexNum].struck && endModalOPEN === false){
+        const endData = 1;
+        // finalTally = finalTallyArrayAdder(newAlienObj);
+        // console.log(finalTally)
+        const x = setTimeout(()=>{
+            setEndModalOPEN(true);
+        }, 1000)
+
+        
+        
+        
+        
+    }
     return (
         <>
+            
+            <EndModal open={endModalOPEN} endData={endModalOPEN? finalTallyArrayAdder(newAlienObj) : null} onClose={()=>setEndModalOPEN(false)}/>
             {liveOnScreenNEW}
             {glass.currGlass}
         <div className="shipmetal" >

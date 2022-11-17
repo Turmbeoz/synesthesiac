@@ -294,12 +294,7 @@ function Alienship(props){
     if (shipState.explode){
         explosion = (<Explosion doneSplode={newAlienObj[props.index].struck} left={shipState.left} top={shipState.top} splode={props.exploder}/>);
     }
-    if (shipState.top > 95){
-        // const tempID = shipState.keyId.split("alienKeyID");
-        // weaponShipObj.deadOrDestroyedIDs.add(tempID[0])
-        // setWeaponShipObj({...weaponShipObj });
-        // return;
-    }
+
     return (
         <div >
             {rattleForceField}

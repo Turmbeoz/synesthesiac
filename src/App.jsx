@@ -17,13 +17,12 @@ function App() {
   // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
   const currentKey = locate.state.todayNotes.notes;
-  const numOfVillains = 20;
+  const numOfVillains = 4;
   if ("vibrate" in navigator){
     navigator.vibrate(500)
   }
-  
+ 
   // Arrray of note objects.One eaach shows up and we'll add 10 or so random from the list to make it longer
-  // const villainKeyNotesArr = Array(numOfVillains).fill(keys.Ckey[0]);
   const villainKeyNotesArr = [...locate.state.todayNotes.notes] //.sort(() => Math.random() - 0.5);;
   const remainVillains = numOfVillains - villainKeyNotesArr.length;
   for (let i=0; i<remainVillains; i++){
@@ -34,7 +33,7 @@ function App() {
   const villainsShipsArr = [];
   const newAlienObj = { listening: null, droneLandsAndExplodes: null };
   for (let i=0; i<numOfVillains; i++){
-    newAlienObj[i] = {  left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].cssFilter, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false, struck: null, exploder: villainKeyNotesArr[i].exploder, listenerMP3: villainKeyNotesArr[i].listenerMP3, explodeAudio: villainKeyNotesArr[i].explodeAudio }
+    newAlienObj[i] = {  left: villainXposition[i], note: villainKeyNotesArr[i].stringVer, gray: notesCSSandData.defaultGray.hex, color: villainKeyNotesArr[i].hex, key: i + 'alienKey', keyId: i + 'alienKeyID', index: i, touched: false, idle: false, spinsSeconds: 4, listeningHold: false, struck: null, exploder: villainKeyNotesArr[i].exploder, listenerMP3: villainKeyNotesArr[i].listenerMP3, explodeAudio: villainKeyNotesArr[i].explodeAudio }
   }
   const buttonAlternates = {
     "A": { sharp: notesCSSandData.aSharpBFlat, flat: notesCSSandData.gSharpAflat },
@@ -46,7 +45,8 @@ function App() {
     "G": { sharp: notesCSSandData.gSharpAflat, flat: notesCSSandData.fSharpGflat },
     noteChangersAudio: notesCSSandData.noteChangers
   }
-  const [weaponShipObj, setWeaponShipObj] = useState({ deadOrDestroyedIDs: new Set(), newAlienObj: newAlienObj, numOfVillains: numOfVillains, tempEvent: null, lightningCom: null, buttonAlternates: buttonAlternates });
+
+  const [weaponShipObj, setWeaponShipObj] = useState({ finalTally: [], newAlienObj: newAlienObj, numOfVillains: numOfVillains, tempEvent: null, lightningCom: null, buttonAlternates: buttonAlternates });
   return (
     <div className="wrapper" id='canvas'>
       <canvas id='c'></canvas>
