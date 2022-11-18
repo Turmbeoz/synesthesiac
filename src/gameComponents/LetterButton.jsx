@@ -52,11 +52,16 @@ function LetterButtonSquare(props){
         const x = ["♭", "#", "♮"];
         let xxx = {color: "CACACA"}
         const { noteChangersAudio } = buttonAlternates
-        console.log(noteChangersAudio)
         // ADD SOUNDS HERE for approx 500ms - all three ways - the sound of switching cannons - note change AUDIO here too
         if (e.target.outerText === "♮"){
             xxx = {color: buttonNoteInfo.active.hex}
-            setNoteChangeSound(<ReactHowler src={noteChangersAudio[buttonNoteInfo.active.stringVer]} seek={0} playing={true} html5={true} preload={true} volume={0.25}/>)
+            console.log(buttonNoteInfo.symbols);
+            if (buttonNoteInfo.symbols[1] === "♮"){
+                setNoteChangeSound(<ReactHowler src={noteChangersAudio[buttonNoteInfo.left.stringVer]} seek={0} playing={true} html5={true} preload={true} volume={0.25}/>)
+            }else{
+                setNoteChangeSound(<ReactHowler src={noteChangersAudio[buttonNoteInfo.right.stringVer]} seek={0} playing={true} html5={true} preload={true} volume={0.25}/>)
+            }
+            
             setButtonState({ currColor: colorCSS.hex })
             setButtonNoteInfo({ active: colorCSS, left: buttonAlternates[note].flat, right: buttonAlternates[note].sharp, symbols: ["♮", "♭", "#"]});
             
@@ -126,7 +131,6 @@ function LetterButtonSquare(props){
     }
     function shootMove(e){
         clearTimeout(isHoldingNoteKeyTimeout.current)
-        console.log("move that body")
         return
     }
     function shootEnd(e){

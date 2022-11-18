@@ -10,10 +10,7 @@ export function NoteBadgeSelect(props){
     const [coloredOrNotR, setColoredOrNotR] = useState({ touched: false, color: "#CACACA" });
     const [buttons, setButtons] = useState(0);
     const x = ["♭", "#", "♮"]
-    console.log(buttonNoteInfo)
     function newColor(e){
-        console.log("Inside the ontouch");
-        console.log(e.target.parentElement.className)
         if(e.target.className === "btn-sharp-flatR" && e.target.parentElement.className === "sharpOrFlat"){
             setColoredOrNotR({...coloredOrNotR, color: buttonNoteInfo.right? buttonNoteInfo.right.hex : "#CACACA"})
         } 

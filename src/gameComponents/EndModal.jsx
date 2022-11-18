@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 export default function EndModal(props) {
   if (!(props.open) || !(props.endData)) return null
   const { endData, open } = props;
-  console.log(endData)
   const MODAL_STYLES = {
     position: "fixed",
     top: "50%",
@@ -20,7 +19,7 @@ export default function EndModal(props) {
     paddingLeft: "10px"
 
   }
-  const ninetyOrbetter = "Great Work! Come back and master tomorrow's chord! This will take time and practice to master. And if you can, consider donating a dollar to help upgrade and maintain the Synesthesiac! She's a tough ship but she needs your help!"
+  const ninetyOrbetter = "Great Work! Come back and master tomorrow's chord! It will take time and practice to train your ear. And if you can, consider donating a dollar to help upgrade and maintain the Synesthesiac! She's a tough ship but she needs your help!"
   const endMessages = {}
   const resultStyle = { paddingLeft: "2%", paddingRight: "2%"}
   // ADD the click outside to close feature

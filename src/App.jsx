@@ -17,7 +17,7 @@ function App() {
   // const AbuttonCenter = -125;
   const bubbleCenterArr = [];
   const currentKey = locate.state.todayNotes.notes;
-  const numOfVillains = 4;
+  const numOfVillains = 16;
   if ("vibrate" in navigator){
     navigator.vibrate(500)
   }
