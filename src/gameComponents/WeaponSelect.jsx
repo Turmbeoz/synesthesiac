@@ -23,7 +23,9 @@ function WeaponSelector(props){
     const [glassAudio, setGlassAudio] = useState(null)
     const [slice, setSlice] = useState({ left: 0, right: 1 });
     const [endModalOPEN, setEndModalOPEN] = useState(false);
-    const [finals, setFinals] = useState(null)
+    const [finals, setFinals] = useState(null);
+
+    // How fast do they ships fly at you?
     function runTheInterval(){
         const difference = slice.right - slice.left;
         if(slice.right < numOfVillains){
@@ -38,7 +40,7 @@ function WeaponSelector(props){
             return { right: slice.right, left: slice.left }
         })
     }
-    const interValue = useInterval(runTheInterval, 6000);
+    const interValue = useInterval(runTheInterval, 5000);
     function makeCracks(){
         let glassShatterJSX = (<img src={cracks3} className="cracks1" style={{
             position: "absolute",

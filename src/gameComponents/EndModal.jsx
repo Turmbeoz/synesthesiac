@@ -27,8 +27,7 @@ export default function EndModal(props) {
   for (let [k, v] of Object.entries(endData)){
     const data = (<div style={{...resultStyle, color: v.color, textShadow:` 0 0 20px ${v.color}`, fontSize: "35px" }}> {v.label} 
     <div style={{color: "#CACACA", fontSize: "15px"}}>
-      Fought: {v.total}<br/>
-      Destroyed: {v.destroyed}<br/>
+    <br/>
       Success Rate: {((v.destroyed / v.total)*100).toFixed()}%
       </div> 
     
